@@ -1,0 +1,14 @@
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.exe
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.deps.json
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.runtimeconfig.json
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.runtimeconfig.dev.json
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.dll
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Air-BOT.pdb
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
+D:\Estudo\Visual Studio Code\Air-BOT\bin\Debug\netcoreapp3.0\Telegram.Bot.dll
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.csprojAssemblyReference.cache
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.AssemblyInfoInputs.cache
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.AssemblyInfo.cs
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.csproj.CopyComplete
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.dll
+D:\Estudo\Visual Studio Code\Air-BOT\obj\Debug\netcoreapp3.0\Air-BOT.pdb
