@@ -11,6 +11,7 @@ namespace Air_BOT
     class Program
     {
         static ITelegramBotClient botClient;
+        static ICollection<Weather> weathers { get; set; }
 
         public static void Main(string[] args)
         {
@@ -25,25 +26,22 @@ namespace Air_BOT
 
         public static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            if (e.Message.Text != null || e.Message.Text != string.Empty)
+            if (e.Message.Text == "/start")
             {
-                switch (e.Message.Text)
-                {
-                    case "/datetime":
-                        DateTime date = DateTime.Now;
-                            botClient.SendTextMessageAsync(
-                            chatId: e.Message.Chat,
-                            text: $"{date} - Horário de Brasília."
-                        );
-                    break;
+                e.Message.Text = null;
 
-                    case "/metar":
-                            botClient.SendTextMessageAsync(
-                            chatId: e.Message.Chat,
-                            text: $"{GetIcaoCode("SBMG")}"
-                        );
-                    break;
-                }
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: "Olá, seja bem-vindo.\n"
+                        + "Digite algum ICAO para consulta. Exemplo: 'SBGR'"
+                );
+            }
+            else if (e.Message.Text != null || e.Message.Text != string.Empty)
+            {
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: $"{GetIcaoCode(e.Message.Text)}"
+                );
             }
         }
 
