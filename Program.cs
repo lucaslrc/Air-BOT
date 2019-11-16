@@ -13,9 +13,11 @@ namespace Air_BOT
         static ITelegramBotClient botClient;
         static ICollection<Weather> weathers { get; set; }
 
+        static string Metar { get; set; }
+
         public static void Main(string[] args)
         {
-            botClient = new TelegramBotClient("668648971:AAF-71Stk_POcLfu4E7nfRArtc3OQsbjei4");
+            botClient = new TelegramBotClient("668648971:AAHjB4WFaVeQFbtSuYpAwEbJJfw2jU6b6J0");
 
             var me = botClient.GetMeAsync().Result;
 
@@ -36,12 +38,25 @@ namespace Air_BOT
                         + "Digite algum ICAO para consulta. Exemplo: 'SBGR'"
                 );
             }
-            else if (e.Message.Text != null || e.Message.Text != string.Empty)
+            else if (e.Message.Text.Length == 4)
             {
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: $"{GetIcaoCode(e.Message.Text)}"
+                    text: $"{GetIcaoCode(e.Message.Text)}\n"
+                        + "'/simplificar'"
                 );
+
+                Metar += e.Message.Text;
+            }
+            else if (e.Message.Text == "/simplificar")
+            {
+                var translateMetar = new TranslateMetar();
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: translateMetar.Translate(GetIcaoCode(Metar))
+                );
+
+                Metar = string.Empty;
             }
         }
 

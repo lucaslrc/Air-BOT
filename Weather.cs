@@ -14,7 +14,7 @@ namespace Air_BOT
         //*Pancada*//
         public const string GR = "SH";
 
-        //* Névoa seca*//
+        //*Névoa seca*//
         public const string HZ = "HZ";
 
         //*Névoa umida*//
