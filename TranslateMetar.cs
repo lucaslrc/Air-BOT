@@ -10,7 +10,7 @@ namespace Air_BOT
         {
             if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
             {
-                return "Não foi possível simplificar o ICAO, esta função está disponível"
+                return "Não foi possível simplificar o METAR, esta função está disponível "
                      + "apenas para alguns aeroportos federais brasileiros.";
             }
 
@@ -19,11 +19,18 @@ namespace Air_BOT
             var dateMM = Metar.Substring(5, 2);
             var dateDD = Metar.Substring(24, 2);
             var dateHH = Metar.Substring(26, 2);
+            var windDirection = Metar.Substring(32, 3);
+            var windSpeed = Metar.Substring(35, 2);
 
             var result = $"Metar: {Metar}\n"
-                       + $"Icao selecionado: {Icao}\n"
+                       + $"✈️ Icao selecionado: {Icao}\n"
                        + $"\n{ConvertIcaoForAirportName(Icao)}\n"
-                       + $"\nMetar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s), UTC.";
+                       + $"\n🕒 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                       + $"\n☁️ Situação meteorológica:\n"
+                       + $"\n- Vento:" 
+                       + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
+                       + $"\n- Tempo predominante:\n"
+                       + $"{GetWeatherData(Metar)}.";
 
             
             return result;
@@ -34,6 +41,13 @@ namespace Air_BOT
             var airportIcao = new AirportListIcao();
 
             return airportIcao.GetIcaoInfo(Icao);
+        }
+
+        protected string GetWeatherData(string Metar)
+        {
+            var airportWeather = new AirportListWeather();
+
+            return airportWeather.GetWeather(Metar);
         }
 
         protected string ConvertDate(string Date)
