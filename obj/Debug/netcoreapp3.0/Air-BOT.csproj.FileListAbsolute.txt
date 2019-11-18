@@ -26,3 +26,17 @@ D:/Estudo/Visual Studio Code/Air-BOT/obj/Debug/netcoreapp3.0/Air-BOT.pdb
 /home/lucas/Documents/CSharp/Air-BOT/obj/Debug/netcoreapp3.0/Air-BOT.csproj.CopyComplete
 /home/lucas/Documents/CSharp/Air-BOT/obj/Debug/netcoreapp3.0/Air-BOT.dll
 /home/lucas/Documents/CSharp/Air-BOT/obj/Debug/netcoreapp3.0/Air-BOT.pdb
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.exe
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.deps.json
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.runtimeconfig.json
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.runtimeconfig.dev.json
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.dll
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Air-BOT.pdb
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\bin\Debug\netcoreapp3.0\Telegram.Bot.dll
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.csprojAssemblyReference.cache
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.AssemblyInfoInputs.cache
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.AssemblyInfo.cs
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.csproj.CopyComplete
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.dll
+C:\Users\lucas.costa\Desktop\Air-BOT-Testing\obj\Debug\netcoreapp3.0\Air-BOT.pdb

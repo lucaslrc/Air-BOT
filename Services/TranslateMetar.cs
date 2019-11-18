@@ -30,7 +30,7 @@ namespace Air_BOT
                        + $"\n- Vento:" 
                        + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
                        + $"\n- Tempo predominante:\n"
-                       + $"{GetWeatherData(Metar)}.";
+                       + $"{GetWeatherData(Metar)}";
 
             
             return result;

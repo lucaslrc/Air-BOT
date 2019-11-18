@@ -11,7 +11,6 @@ namespace Air_BOT
     class Program
     {
         static ITelegramBotClient botClient;
-        static ICollection<Weather> weathers { get; set; }
 
         static string Metar { get; set; }
 
