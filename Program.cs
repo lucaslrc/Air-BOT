@@ -12,7 +12,7 @@ namespace Air_BOT
     {
         static ITelegramBotClient botClient;
 
-        static string Metar { get; set; }
+        static string Metar = string.Empty;
 
         public static void Main(string[] args)
         {
@@ -29,7 +29,7 @@ namespace Air_BOT
         {
             if (e.Message.Text == "/start")
             {
-                e.Message.Text = null;
+                e.Message.Text = string.Empty;
 
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
@@ -39,6 +39,11 @@ namespace Air_BOT
             }
             else if (e.Message.Text.Length == 4)
             {
+                if (Metar.Length >= 4)
+                {
+                    Metar = string.Empty;
+                }
+
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
                     text: $"{GetIcaoCode(e.Message.Text)}\n"
@@ -49,13 +54,24 @@ namespace Air_BOT
             }
             else if (e.Message.Text == "/simplificar")
             {
+
                 var translateMetar = new TranslateMetar();
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
                     text: translateMetar.Translate(GetIcaoCode(Metar))
                 );
 
-                Metar = string.Empty;
+            }
+            else if (e.Message.Text == "/infoaero")
+            {
+                var aPlist = new TranslateMetar();
+
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: aPlist.ConvertIcaoForAirportName(Metar)
+                );
+
+                Metar = string.Empty;        
             }
         }
 

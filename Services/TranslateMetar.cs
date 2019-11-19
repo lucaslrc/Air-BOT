@@ -8,6 +8,7 @@ namespace Air_BOT
     {
         public string Translate(string Metar)
         {
+
             if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
             {
                 return "Não foi possível simplificar o METAR, esta função está disponível "
@@ -21,26 +22,50 @@ namespace Air_BOT
             var dateHH = Metar.Substring(26, 2);
             var windDirection = Metar.Substring(32, 3);
             var windSpeed = Metar.Substring(35, 2);
+            var ifContainWindVariation = Metar.Substring(43, 1).Contains("V");
+            var variationWind = Metar.Substring(40, 7);
 
-            var result = $"Metar: {Metar}\n"
+
+            if (ifContainWindVariation)
+            {
+                var result = $"Metar: {Metar}\n"
                        + $"✈️ Icao selecionado: {Icao}\n"
-                       + $"\n{ConvertIcaoForAirportName(Icao)}\n"
+                       + $"\n'/infoaero'\n"
                        + $"\n🕒 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
                        + $"\n☁️ Situação meteorológica:\n"
-                       + $"\n- Vento:" 
+                       + $"\n🔴 Vento:" 
                        + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
-                       + $"\n- Tempo predominante:\n"
-                       + $"{GetWeatherData(Metar)}";
+                       + $"Com variações entre {Metar.Substring(40, 3)}° e {Metar.Substring(44, 3)}° graus.\n"
+                       + $"\n🔴 Tempo predominante:\n"
+                       + $"{GetWeatherData(Metar)}\n";
 
-            
-            return result;
+                return result;
+            }
+            else
+            {
+                var result = $"Metar: {Metar}\n"
+                           + $"✈️ Icao selecionado: {Icao}\n"
+                           + $"\n'/infoaero'\n"
+                           + $"\n🕒 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                           + $"\n☁️ Situação meteorológica:\n"
+                           + $"\n🔴 Vento:" 
+                           + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
+                           + $"\n🔴 Tempo predominante:\n"
+                           + $"{GetWeatherData(Metar)}\n";
+
+                return result;
+            }
+
         }
 
-        protected string ConvertIcaoForAirportName(string Icao)
+        public string ConvertIcaoForAirportName(string Icao)
         {
-            var airportIcao = new AirportListIcao();
+            if (Icao.Length == 0)
+            {
+                return "Não foi possível fazer a busca pelo aeroporto, digite um ICAO.";
+            }
 
-            return airportIcao.GetIcaoInfo(Icao);
+            return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}";
         }
 
         protected string GetWeatherData(string Metar)
