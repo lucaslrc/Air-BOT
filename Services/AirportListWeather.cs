@@ -7,11 +7,11 @@ namespace Air_BOT
 {
     public class AirportListWeather
     {
-        private string Metar = "2019111816 - METAR SBEG 181600Z 03007KT 9999 SCT020 SCT100 30/24 Q1010=";
+        private string A = "2019111816 - METAR SBEG 181600Z 03007KT 9999 SCT020 SCT100 30/24 Q1010=";
 
         public void TesteMetar()
         {
-            Console.WriteLine(GetWeather(this.Metar));
+            Console.WriteLine(GetWeather(this.A));
         }
 
         public string GetWeather(string Metar)
@@ -51,14 +51,24 @@ namespace Air_BOT
 
             foreach (var item in GetVariationsWeather)
             {
+                var a = this.A.Substring(this.A.IndexOf("SCT"));
+
                 if (Metar.Contains(item.WeatherTag))
                 {
+                    if (GetVariationsWeather.Where(x => x.WeatherTag == this.A.Substring(this.A.IndexOf(item.WeatherTag))) != null)
+                    {
+                        Console.WriteLine(GetVariationsWeather.Where(x => x.WeatherTag == this.A.Substring(this.A.IndexOf(item.WeatherTag))).ToString());
+                    }   
+
+                    // Console.WriteLine(this.A.Substring(this.A.(item.WeatherTag), 5).Contains(item.WeatherTag));
+
                     resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag, 6)).Substring(3, 3)} FT.\n";
                 }
 
-                var a = this.Metar.Substring(this.Metar.IndexOf("SCT"));
-
-                Console.WriteLine(a.Substring(6, 4));
+                // var b = this.A.Substring(this.A.IndexOf("SCT"), item.WeatherTag.Length);
+            
+                // Console.WriteLine(b.Substring(6, 4).Contains(item.WeatherTag));
+                
             }
 
             if (resultWeather.Length == 0 || resultVariation.Length == 0)

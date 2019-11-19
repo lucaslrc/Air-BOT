@@ -8,8 +8,11 @@ namespace Air_BOT
     {
         public string Translate(string Metar)
         {
-
-            if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
+            if (string.IsNullOrEmpty(Metar))
+            {
+                return "Não foi possível simplificar o METAR, por favor digite um METAR válido.";
+            }
+            else if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
             {
                 return "Não foi possível simplificar o METAR, esta função está disponível "
                      + "apenas para alguns aeroportos federais brasileiros.";
