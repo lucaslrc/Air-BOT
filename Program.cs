@@ -124,13 +124,20 @@ namespace Air_BOT
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
                     text: "Selecione um estado:\n"
-                        + "/AC\n" + "/AL\n" + "/AP\n" + "/AM\n"
-                        + "/BA\n" + "/CE\n" + "/DF\n" + "/ES\n"
-                        + "/GO\n" + "/MA\n" + "/MT\n" + "/MS\n"
-                        + "/MG\n" + "/PA\n" + "/PB\n" + "/PR\n" 
-                        + "/PE\n" + "/PI\n" + "/RJ\n" + "/RN\n" 
-                        + "/RS\n" + "/RO\n" + "/RR\n" + "/SC\n" 
-                        + "/SE\n" + "/SP\n" + "/TO\n"
+                     
+                        + "\n/AC  - " + " /AL  -  " + "/AP  -  " + "/AM\n"
+
+                        + "\n/BA  -  " + "/CE  -  " + "/DF  -  " + "/ES\n"
+
+                        + "\n/GO  -  " + "/MA  -  " + "/MT  -  " + "/MS\n"
+
+                        + "\n/MG  -  " + "/PA  -  " + "/PB  -  " + "/PR\n" 
+
+                        + "\n/PE  -  " + "/PI  -  " + "/RJ  -  " + "/RN\n"
+
+                        + "\n/RS  -  " + "/RO  -  " + "/RR  -  " + "/SC\n" 
+
+                        + "\n/SE  -  " + "/SP  -  " + "/TO\n"
                 );
             }
         }
