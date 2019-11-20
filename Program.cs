@@ -12,7 +12,7 @@ namespace Air_BOT
     {
         static ITelegramBotClient botClient;
 
-        static string Metar = string.Empty;
+        static string Icao = string.Empty;
 
         public static void Main(string[] args)
         {
@@ -29,38 +29,84 @@ namespace Air_BOT
         {
             if (e.Message.Text == "/start")
             {
-                e.Message.Text = string.Empty;
+                e.Message.Text = "";
 
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
                     text: "Olá, seja bem-vindo.\n"
-                        + "Digite algum ICAO para consulta. Exemplo: 'SBGR'"
+                        + "Digite algum ICAO para consulta. Exemplo: 'SBGR'\n"
+                        + "Ou se preferir veja a lista de ICAO's:\n"
+                        + "'/listaicaos'"
                 );
             }
-            else if (e.Message.Text.Length == 4)
+            else if (e.Message.Text.Length == 4 || e.Message.Text.Length == 5)
             {
-                if (Metar.Length >= 4)
+                if (Icao.Length >= 4)
                 {
-                    Metar = string.Empty;
+                    Icao = string.Empty;
                 }
 
-                botClient.SendTextMessageAsync(
-                    chatId: e.Message.Chat,
-                    text: $"{GetIcaoCode(e.Message.Text)}\n"
-                        + "'/simplificar'"
-                );
+                if (e.Message.Text.Contains("/"))
+                {
+                   botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: $"{GetIcaoCode(e.Message.Text.Substring(1))}\n"
+                            + "'/simplificar'"
+                    ); 
+                }
+                else
+                {
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: $"{GetIcaoCode(e.Message.Text)}"
+                            + "'/simplificar'"
+                    );
+                }
 
-                Metar += e.Message.Text;
+                Icao += e.Message.Text;
+            }
+            else if (e.Message.Text.Length < 4 && e.Message.Text.Contains("/"))
+            {
+                if (e.Message.Text.Length == 3)
+                {
+                    var list = new AirportListIcao();
+
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: $"{list.GetEstado(e.Message.Text)}"
+                    );
+
+                    e.Message.Text = string.Empty;
+                }
+                else
+                {
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: "Não foi possível ralizar esta ação."
+                    );
+
+                    e.Message.Text = string.Empty;
+                }
             }
             else if (e.Message.Text == "/simplificar")
             {
 
-                var translateMetar = new TranslateMetar();
-                botClient.SendTextMessageAsync(
-                    chatId: e.Message.Chat,
-                    text: translateMetar.Translate(GetIcaoCode(Metar))
-                );
-
+                if (Icao.Contains("/"))
+                {
+                    var translateMetar = new TranslateMetar();
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: translateMetar.Translate(GetIcaoCode(Icao.Substring(1)))
+                    );
+                }
+                else
+                {
+                    var translateMetar = new TranslateMetar();
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: translateMetar.Translate(GetIcaoCode(Icao))
+                    );
+                }
             }
             else if (e.Message.Text == "/infoaero")
             {
@@ -68,10 +114,24 @@ namespace Air_BOT
 
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: aPlist.ConvertIcaoForAirportName(Metar)
+                    text: aPlist.ConvertIcaoForAirportName(Icao)
                 );
 
-                Metar = string.Empty;        
+                Icao = string.Empty;        
+            }
+            else if (e.Message.Text == "/listaicaos")
+            {
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: "Selecione um estado:\n"
+                        + "/AC\n" + "/AL\n" + "/AP\n" + "/AM\n"
+                        + "/BA\n" + "/CE\n" + "/DF\n" + "/ES\n"
+                        + "/GO\n" + "/MA\n" + "/MT\n" + "/MS\n"
+                        + "/MG\n" + "/PA\n" + "/PB\n" + "/PR\n" 
+                        + "/PE\n" + "/PI\n" + "/RJ\n" + "/RN\n" 
+                        + "/RS\n" + "/RO\n" + "/RR\n" + "/SC\n" 
+                        + "/SE\n" + "/SP\n" + "/TO\n"
+                );
             }
         }
 

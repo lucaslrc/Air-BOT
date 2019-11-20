@@ -7,18 +7,16 @@ namespace Air_BOT
 {
     public class AirportListWeather
     {
-        public string A = "2019111816 - METAR SBEG 181600Z 03007KT 9999 SCT020 SCT100 30/24 Q1010=";
-
-        public void TesteMetar()
-        {
-            Console.WriteLine(GetWeather(this.A));
-        }
-
         public string GetWeather(string Metar)
         {
+
+            //* For testing *//
+            //string A = "2019111816 - METAR SBEG 181600Z 03007KT 9999 SCT020 SCT100 30/24 Q1010=";
+            //string B = "2019112016 - METAR SBEG 201600Z 31002KT 9999 BKN015 BKN100 28/24 Q1012=";
+            //* For Testing *//
+
             var resultWeather = string.Empty;
             var resultVariation = string.Empty;
-            var resultTest = string.Empty;
 
             var GetWeather = new List<WeatherModel>() {
                 new WeatherModel {WeatherTag = "DZ", WeatherInfo = "Chuvisco."},
@@ -26,7 +24,7 @@ namespace Air_BOT
                 new WeatherModel {WeatherTag = "-RA", WeatherInfo = "Chuva fraca."},
                 new WeatherModel {WeatherTag = "+RA", WeatherInfo = "Chuva forte."},
                 new WeatherModel {WeatherTag = "TS", WeatherInfo = "Trovoada."},
-                new WeatherModel {WeatherTag = "SH", WeatherInfo = "Pancada."},
+                new WeatherModel {WeatherTag = "SH", WeatherInfo = "Pancadas de chuva."},
                 new WeatherModel {WeatherTag = "HZ", WeatherInfo = "Névoa Seca."},
                 new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
                 new WeatherModel {WeatherTag = "FG", WeatherInfo = "Nevoeiro."},
@@ -54,25 +52,17 @@ namespace Air_BOT
             {
                 if (Metar.Contains(item.WeatherTag))
                 {   
-                    var a = A.Substring(A.IndexOf(item.WeatherTag)).Substring(0, 13);
-                    Console.WriteLine(a);
-
-                    if (a.Contains(item.WeatherTag))
-                    {
-                        var b = a.Substring(a.IndexOf(item.WeatherTag)).Substring(3, 3);
-                        Console.WriteLine(b);
-
-                        resultTest += $"{a.Substring(3, 3)} e {b}";
-                    }
-                }
-            }
-
-            foreach (var item in GetVariationsWeather)
-            {
-                if (Metar.Contains(item.WeatherTag))
-                {   
+                    var variation1 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 6);
+                    var variation2 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 14).Substring(7, 7);
                     
-                    resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(3, 3)} FT.\n";
+                    if (variation1.Contains(item.WeatherTag) == variation2.Contains(item.WeatherTag))
+                    {
+                        resultVariation += $"{item.WeatherInfo} {variation1.Substring(3)} e {variation2.Substring(3)} FT.\n";
+                    }
+                    else
+                    {
+                        resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(3, 3)} FT.\n";
+                    }
                 }
             }
 
@@ -90,7 +80,7 @@ namespace Air_BOT
             else
             {
                 return $"{resultWeather}"
-                     + $"{resultVariation} {resultTest}";
+                     + $"{resultVariation}";
             }
         }
     }
