@@ -67,8 +67,14 @@ namespace Air_BOT
             {
                 return "Não foi possível fazer a busca pelo aeroporto, digite um ICAO.";
             }
-
-            return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}";
+            else if (Icao.Contains("/"))
+            {
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao.Substring(1)}";
+            }
+            else
+            {
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}";
+            }  
         }
 
         protected string GetWeatherData(string Metar)
