@@ -125,7 +125,6 @@ namespace Air_BOT
                 var variation1 = Metar.Substring(39, 8).Substring(0, 4);
                 var variation2 = Metar.Substring(39, 8).Substring(5, 3);
 
-            Console.WriteLine($"{variation1} {variation2}");
 
             if (Metar.Contains("VRB"))
             {
