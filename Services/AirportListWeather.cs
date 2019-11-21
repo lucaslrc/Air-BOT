@@ -9,12 +9,6 @@ namespace Air_BOT
     {
         public string GetWeather(string Metar)
         {
-
-            //* For testing *//
-            //string A = "2019111816 - METAR SBEG 181600Z 03007KT 9999 SCT020 SCT100 30/24 Q1010=";
-            //string B = "2019112016 - METAR SBEG 201600Z 31002KT 9999 BKN015 BKN100 28/24 Q1012=";
-            //* For Testing *//
-
             var resultWeather = string.Empty;
             var resultVariation = string.Empty;
 
@@ -28,7 +22,7 @@ namespace Air_BOT
                 new WeatherModel {WeatherTag = "HZ", WeatherInfo = "Névoa Seca."},
                 new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
                 new WeatherModel {WeatherTag = "FG", WeatherInfo = "Nevoeiro."},
-                new WeatherModel {WeatherTag = "CAVOK", WeatherInfo = "CAVOK, hora de voar!"},
+                new WeatherModel {WeatherTag = "CAVOK", WeatherInfo = "CAVOK (Ceiling And Visibility OK)."},
                 // new WeatherModel {WeatherTag = "GR", WeatherInfo = "Granizo."}
             };
 
@@ -54,7 +48,7 @@ namespace Air_BOT
                 {   
                     var variation1 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 6);
                     var variation2 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 14).Substring(7, 7);
-                    
+
                     if (variation1.Contains(item.WeatherTag) == variation2.Contains(item.WeatherTag))
                     {
                         resultVariation += $"{item.WeatherInfo} {variation1.Substring(3)} e {variation2.Substring(3)} FT.\n";
@@ -79,6 +73,14 @@ namespace Air_BOT
             }
             else
             {
+                if (Metar.Contains("VCSH"))
+                {
+
+                return $"{resultWeather}"
+                     + $"{resultVariation}"
+                     + $"Chuva leve na vizinhança do aeroporto.";
+                }
+
                 return $"{resultWeather}"
                      + $"{resultVariation}";
             }

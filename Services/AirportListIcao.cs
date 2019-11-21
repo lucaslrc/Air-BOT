@@ -130,189 +130,189 @@ namespace Air_BOT
                 case "/AC":
                     foreach (var item in listaIcaoAcre)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/AL":
                     foreach (var item in listaIcaoAlagoas)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/AP":
                     foreach (var item in listaIcaoAmapa)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/AM":
                     foreach (var item in listaIcaoAmazonas)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/BA":
                     foreach (var item in listaIcaoBahia)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/CE":
                     foreach (var item in listaIcaoCeara)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/DF":
                     foreach (var item in listaIcaoDistritoFederal)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/ES":
                     foreach (var item in listaIcaoEspiritoSanto)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
                     
                 case "/GO":
                     foreach (var item in listaIcaoGoias)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/MA":
                     foreach (var item in listaIcaoMaranhao)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/MT":
                     foreach (var item in listaIcaoMatoGrosso)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/MS":
                     foreach (var item in listaIcaoMatoGrossoDoSul)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/MG":
                     foreach (var item in listaIcaoMinasGerais)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/PA":
                     foreach (var item in listaIcaoPara)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     };
                 break;
 
                 case "/PB":
                     foreach (var item in listaIcaoParaiba)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/PR":
                     foreach (var item in listaIcaoParana)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/PE":
                     foreach (var item in listaIcaoPernambuco)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/PI":
                     foreach (var item in listaIcaoPiaui)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/RJ":
                     foreach (var item in listaIcaoRioDeJaneiro)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/RN":
                     foreach (var item in listaIcaoRioGrandeDoNorte)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/RS":
                     foreach (var item in listaIcaoRioGrandeDoSul)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/RO":
                     foreach (var item in listaIcaoRondonia)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/RR":
                     foreach (var item in listaIcaoRoraima)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
                     
                 case "/SC":
                     foreach (var item in listaIcaoSantaCatarina)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/SP":
                     foreach (var item in listaIcaoSaoPaulo)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/SE":
                     foreach (var item in listaIcaoSergipe)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 
                 case "/TO":
                     foreach (var item in listaIcaoTocatins)
                     {
-                        result += item + "\n";
+                        result += item + "     ";
                     }
                 break;
 

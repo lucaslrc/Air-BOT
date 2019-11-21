@@ -140,6 +140,16 @@ namespace Air_BOT
                         + "\n/SE  -  " + "/SP  -  " + "/TO\n"
                 );
             }
+            else
+            {
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: "Não consegui te entender.\n"
+                        + "Veja a lista de comandos:\n"
+                        + "\n'/start'\n"
+                        + "'/listaicaos'"
+                );
+            }
         }
 
         public static string GetIcaoCode(string Code)
@@ -161,8 +171,15 @@ namespace Air_BOT
                     }
                 }
             }
-    
-            return content;
+
+            if (content.Contains("não localizada na base de dados da REDEMET"))
+            {
+                return string.Empty + content;
+            }
+            else
+            {
+                return content;
+            }
         }
     }
 }

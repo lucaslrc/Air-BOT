@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Air_BOT
 {
@@ -8,6 +6,15 @@ namespace Air_BOT
     {
         public string Translate(string Metar)
         {
+            var Icao = Metar.Substring(19, 4);
+            var dateYY = Metar.Substring(0, 4);
+            var dateMM = Metar.Substring(4, 2);
+            var dateDD = Metar.Substring(24, 2);
+            var dateHH = Metar.Substring(26, 2);
+            var ifContainWindVariation = Metar.Substring(43, 1).Contains("V");
+
+            var result = string.Empty;
+
             if (string.IsNullOrEmpty(Metar))
             {
                 return "Não foi possível simplificar o METAR, por favor digite um METAR válido.";
@@ -15,50 +22,35 @@ namespace Air_BOT
             else if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
             {
                 return "Não foi possível simplificar o METAR, esta função está disponível "
-                     + "apenas para alguns aeroportos federais brasileiros.";
+                    + "apenas para alguns aeroportos federais brasileiros.";
             }
-
-            var Icao = Metar.Substring(19, 4);
-            var dateYY = Metar.Substring(0, 4);
-            var dateMM = Metar.Substring(5, 2);
-            var dateDD = Metar.Substring(24, 2);
-            var dateHH = Metar.Substring(26, 2);
-            var windDirection = Metar.Substring(32, 3);
-            var windSpeed = Metar.Substring(35, 2);
-            var ifContainWindVariation = Metar.Substring(43, 1).Contains("V");
-            var variationWind = Metar.Substring(40, 7);
-
-
-            if (ifContainWindVariation)
+            else if (Metar.Contains("CAVOK"))
             {
-                var result = $"Metar: {Metar}\n"
-                       + $"✈️ Icao selecionado: {Icao}\n"
-                       + $"\n'/infoaero'\n"
-                       + $"\n🕒 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
-                       + $"\n☁️ Situação meteorológica:\n"
-                       + $"\n🔴 Vento:" 
-                       + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
-                       + $"Com variações entre {Metar.Substring(40, 3)}° e {Metar.Substring(44, 3)}° graus.\n"
-                       + $"\n🔴 Tempo predominante:\n"
-                       + $"{GetWeatherData(Metar)}\n";
-
-                return result;
+                result = $"Metar: {Metar}\n"
+                    + $"✈️ Icao selecionado: {Icao}\n"
+                    + $"\n'/infoaero'\n"
+                    + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                    + $"\n☁️ Situação meteorológica:\n"
+                    + $"\n🔴 Vento:" 
+                    + $"\n{GetWindAllVariation(Metar)}\n"
+                    + $"\n🔴 Tempo predominante:\n"
+                    + $"{GetWeatherData(Metar)}\n";
             }
             else
             {
-                var result = $"Metar: {Metar}\n"
-                           + $"✈️ Icao selecionado: {Icao}\n"
-                           + $"\n'/infoaero'\n"
-                           + $"\n🕒 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
-                           + $"\n☁️ Situação meteorológica:\n"
-                           + $"\n🔴 Vento:" 
-                           + $"\nDireção: {windDirection}° graus com velocidade de {windSpeed} nó(s).\n"
-                           + $"\n🔴 Tempo predominante:\n"
-                           + $"{GetWeatherData(Metar)}\n";
-
-                return result;
+                result = $"Metar: {Metar}\n"
+                    + $"✈️ Icao selecionado: {Icao}\n"
+                    + $"\n'/infoaero'\n"
+                    + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                    + $"\n☁️ Situação meteorológica:\n"
+                    + $"\n🔴 Vento:" 
+                    + $"\n{GetWindAllVariation(Metar)}\n"
+                    + $"\n🔴 Visibilidade:\n"
+                    + $"{GetVisibilityData(Metar)}\n"
+                    + $"\n🔴 Tempo predominante:\n"
+                    + $"{GetWeatherData(Metar)}\n"; 
             }
-
+            return result;
         }
 
         public string ConvertIcaoForAirportName(string Icao)
@@ -82,6 +74,77 @@ namespace Air_BOT
             var airportWeather = new AirportListWeather();
 
             return airportWeather.GetWeather(Metar);
+        }
+
+        protected string GetVisibilityData(string Metar)
+        {
+            var result = string.Empty;
+
+            if (Metar.Substring(39).Contains("V"))
+            {
+                var a = Metar.Substring(Metar.IndexOf("V"), 9).Substring(4);
+                
+                var b = int.Parse(a);
+
+                if (b >= 9999)
+                {
+                    result = "Acima dos 10km.";
+                }
+                else
+                {
+                    var c = b / 1000;
+                    result = $"Distância de {c}km";
+                }
+
+                return result;
+            }
+            else
+            {
+                var a = Metar.Substring(39, 6);
+
+                var b = int.Parse(a);
+
+                if (b >= 9999)
+                {
+                    result = "Visibilidade acima dos 10km.";
+                }
+                else
+                {
+                    var c = b / 1000;
+                    result = $"Distância de {c}km";
+                }
+
+                return result;
+            }
+        }
+
+        protected string GetWindAllVariation(string Metar)
+        {
+                var windSpeed = Metar.Substring(35, 2);
+                var windDirection = Metar.Substring(32, 3);
+                var variation1 = Metar.Substring(39, 8).Substring(0, 4);
+                var variation2 = Metar.Substring(39, 8).Substring(5, 3);
+
+            Console.WriteLine($"{variation1} {variation2}");
+
+            if (Metar.Contains("VRB"))
+            {
+                var vrbSpeed = Metar.Substring(Metar.IndexOf("VRB"), 5).Substring(3);
+
+                return $"Direção: Variável;\n"
+                     + $"Velocidade: {vrbSpeed}KT (nós).";
+            }
+            else if (Metar.Substring(39, 8).Contains("V"))
+            {
+                return $"Direção: {windDirection}° (graus);\n"
+                     + $"Velocidade: {windSpeed}KT (nós);\n"
+                     + $"Com variações entre {variation1}° e {variation2}° (graus).";
+            }
+            else
+            {
+                return $"Direção: {windDirection}° (graus);\n"
+                     + $"Velocidade: {windSpeed}KT (nós).";
+            }
         }
 
         protected string ConvertDate(string Date)
