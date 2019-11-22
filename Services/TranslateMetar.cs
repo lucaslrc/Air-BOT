@@ -33,7 +33,7 @@ namespace Air_BOT
                     + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
                     + $"\n☁️ Situação meteorológica:\n"
                     + $"\n🔴 Vento:" 
-                    + $"\n{GetWindAllVariation(Metar)}\n"
+                    + $"\n{GetInfo("2019112115 - METAR SBMG 211500Z 02005KT CAVOK VCSH TS 31/19 Q1013=")}\n"
                     + $"\n🔴 Tempo predominante:\n"
                     + $"{GetWeatherData(Metar)}\n"
                     + $"\n🔴 Temperatura:\n"
@@ -47,7 +47,7 @@ namespace Air_BOT
                     + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
                     + $"\n☁️ Situação meteorológica:\n"
                     + $"\n🔴 Vento:" 
-                    + $"\n{GetWindAllVariation(Metar)}\n"
+                    + $"\n{GetInfo("2019112115 - METAR SBMG 211500Z 02005KT CAVOK VCSH TS 31/19 Q1013=")}\n"
                     + $"\n🔴 Visibilidade:\n"
                     + $"{GetVisibilityData(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
@@ -74,6 +74,13 @@ namespace Air_BOT
             }  
         }
 
+        protected string GetInfo(string Metar)
+        {
+            var a = new AirportListWeather();
+
+            return a.GetWeatherInfo(Metar);
+        }
+
         protected string GetWeatherData(string Metar)
         {
             var airportWeather = new AirportListWeather();
@@ -85,8 +92,10 @@ namespace Air_BOT
         {
             var result = string.Empty;
 
-            if (Metar.Substring(39).Contains("V"))
+            if (Metar.Substring(40, 5).Contains("V"))
             {
+                var aList = new AirportListWeather();
+
                 var a = Metar.Substring(Metar.IndexOf("V"), 9).Substring(4);
                 
                 var b = int.Parse(a);
@@ -123,41 +132,11 @@ namespace Air_BOT
             }
         }
 
-        protected string GetWindAllVariation(string Metar)
-        {
-                var windSpeed = Metar.Substring(35, 2);
-                var windDirection = Metar.Substring(32, 3);
-                var variation1 = Metar.Substring(39, 8).Substring(0, 4);
-                var variation2 = Metar.Substring(39, 8).Substring(5, 3);
-
-
-            if (Metar.Contains("VRB"))
-            {
-                var vrbSpeed = Metar.Substring(Metar.IndexOf("VRB"), 5).Substring(3);
-
-                return $"Direção: Variável;\n"
-                     + $"Velocidade: {vrbSpeed}KT (nós).";
-            }
-            else if (Metar.Substring(39, 8).Contains("V") && !Metar.Substring(37, 8).Contains("CAVOK"))
-            {
-                return $"Direção: {windDirection}° (graus);\n"
-                     + $"Velocidade: {windSpeed}KT (nós);\n"
-                     + $"Com variações entre {variation1}° e {variation2}° (graus).";
-            }
-            else
-            {
-                return $"Direção: {windDirection}° (graus);\n"
-                     + $"Velocidade: {windSpeed}KT (nós).";
-            }
-        }
-
         protected string GetTemperature(string Metar)
         {
             var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray().Count();
             var tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
-            Console.WriteLine(tLeft);
-            Console.WriteLine(tRight);
-            return "";
+            return $"Ponto de orvalho: {tRight}°c";
         }
 
         protected string ConvertDate(string Date)
