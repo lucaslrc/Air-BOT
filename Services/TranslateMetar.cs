@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Air_BOT
 {
@@ -34,7 +35,9 @@ namespace Air_BOT
                     + $"\n🔴 Vento:" 
                     + $"\n{GetWindAllVariation(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
-                    + $"{GetWeatherData(Metar)}\n";
+                    + $"{GetWeatherData(Metar)}\n"
+                    + $"\n🔴 Temperatura:\n"
+                    + $"{GetTemperature(Metar)}";
             }
             else
             {
@@ -48,7 +51,9 @@ namespace Air_BOT
                     + $"\n🔴 Visibilidade:\n"
                     + $"{GetVisibilityData(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
-                    + $"{GetWeatherData(Metar)}\n"; 
+                    + $"{GetWeatherData(Metar)}\n"
+                    + $"\n🔴 Temperatura:\n"
+                    + $"{GetTemperature(Metar)}";
             }
             return result;
         }
@@ -133,7 +138,7 @@ namespace Air_BOT
                 return $"Direção: Variável;\n"
                      + $"Velocidade: {vrbSpeed}KT (nós).";
             }
-            else if (Metar.Substring(39, 8).Contains("V"))
+            else if (Metar.Substring(39, 8).Contains("V") && !Metar.Substring(37, 8).Contains("CAVOK"))
             {
                 return $"Direção: {windDirection}° (graus);\n"
                      + $"Velocidade: {windSpeed}KT (nós);\n"
@@ -144,6 +149,15 @@ namespace Air_BOT
                 return $"Direção: {windDirection}° (graus);\n"
                      + $"Velocidade: {windSpeed}KT (nós).";
             }
+        }
+
+        protected string GetTemperature(string Metar)
+        {
+            var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray().Count();
+            var tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
+            Console.WriteLine(tLeft);
+            Console.WriteLine(tRight);
+            return "";
         }
 
         protected string ConvertDate(string Date)

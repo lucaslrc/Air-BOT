@@ -23,6 +23,10 @@ namespace Air_BOT
                 new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
                 new WeatherModel {WeatherTag = "FG", WeatherInfo = "Nevoeiro."},
                 new WeatherModel {WeatherTag = "CAVOK", WeatherInfo = "CAVOK (Ceiling And Visibility OK)."},
+                new WeatherModel {WeatherTag = "VCTS", WeatherInfo = "Tempestade na vizinhança do aeroporto."},
+                new WeatherModel {WeatherTag = "VCSH", WeatherInfo = "Chuva leve na vizinhança do aeroporto."},
+                new WeatherModel {WeatherTag = "TCU", WeatherInfo = "Presença de 'Tower Cumulus'."},
+                new WeatherModel {WeatherTag = "CB", WeatherInfo = "Presença de 'Cumulus Nimbus'."}
                 // new WeatherModel {WeatherTag = "GR", WeatherInfo = "Granizo."}
             };
 
@@ -73,14 +77,6 @@ namespace Air_BOT
             }
             else
             {
-                if (Metar.Contains("VCSH"))
-                {
-
-                return $"{resultWeather}"
-                     + $"{resultVariation}"
-                     + $"Chuva leve na vizinhança do aeroporto.";
-                }
-
                 return $"{resultWeather}"
                      + $"{resultVariation}";
             }
