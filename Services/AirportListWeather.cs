@@ -43,19 +43,22 @@ namespace Air_BOT
 
         protected string GetWind(string Metar)
         {
-                List<string> othersCharacters = new List<string>() {
-                    "Q","W","E","R","T","Y","U","I","O",
-                    "P","A","S","D","F","G","H","J","K",
-                    "L","Ç","Z","X","C","B","N","M"
-                };
-    
-                var variation = Metar.Substring(Metar.IndexOf("KT"), 10).Substring(3);
-                var windSpeed = Metar.Substring(35, 2);
-                var windDirection = Metar.Substring(32, 3);
-                var variation1 = Metar.Substring(39, 8).Substring(0, 4);
-                var variation2 = Metar.Substring(39, 8).Substring(5, 3);
-                var result = string.Empty;
-        
+
+            var variation = Metar.Substring(Metar.IndexOf("KT"), 7).Substring(6);
+            var windSpeed = Metar.Substring(35, 2);
+            var windDirection = Metar.Substring(32, 3);
+            var variation1 = Metar.Substring(39, 8).Substring(0, 4);
+            var variation2 = Metar.Substring(39, 8).Substring(5, 3);
+            var result = string.Empty;
+            Console.WriteLine(variation);
+            Console.WriteLine(variation.IndexOf("V"));
+            
+
+            foreach (var item in Weather)
+            {
+                // Console.WriteLine(!variation.Contains(item.WeatherTag));
+                Console.WriteLine($"{variation.Contains("V")} + {variation.IndexOf("V")}");
+
                 if (Metar.Contains("VRB"))
                 {
                     var vrbSpeed = Metar.Substring(Metar.IndexOf("VRB"), 5).Substring(3);
@@ -63,60 +66,19 @@ namespace Air_BOT
                     result = $"Direção: Variável;\n"
                         + $"Velocidade: {vrbSpeed}KT (nós).";
                 }
-                else if (variation.Contains("V"))
+                else if (!variation.Contains(item.WeatherTag) && variation.Contains("V"))
                 {
-                    foreach (var item in Weather)
-                    {
-                        foreach (var character in othersCharacters)
-                        {
 
-                            var consultaDeTag = Weather.Where(x => x.WeatherTag == variation);
-                            var test = variation.Contains(character);
-                            Console.WriteLine(variation);
-                            Console.WriteLine(test);
-                            Console.WriteLine(variation.IndexOf("V"));
-                            
-                            if (variation.Contains(item.WeatherTag))
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós).";
-                            }
-                            else if (variation.Contains(character.FirstOrDefault()))
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós).";
-                            }
-                            else if(consultaDeTag == null && variation.Substring(3).Contains("V"))
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós);\n"
-                                    + $"Com variações entre {variation1}° e {variation2}° (graus).";
-                            }
-
-                            Console.WriteLine(!variation.Contains(character) + character);
-                        }
-                        // foreach (var cha in othersCharacters)
-                        // {
-                        //     Console.WriteLine($"{variation.Contains(item.WeatherTag)} {variation.Contains(cha)}");
-                        //     if (variation.Contains(item.WeatherTag))
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós).";
-                        //     }
-                        //     else if (variation.Substring(variation.IndexOf("V")).Contains(cha))
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós).";
-                        //     }
-                        //     else
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós);\n"
-                        //             + $"Com variações entre {variation1}° e {variation2}° (graus).";
-                        //     }
-                        // }
-                    }
+                    result = $"Direção: {windDirection}° (graus);\n"
+                        + $"Velocidade: {windSpeed}KT (nós);\n"
+                        + $"Com variações entre {variation1}° e {variation2}° (graus).";
                 }
+                else
+                {
+                    result = $"Direção: {windDirection}° (graus);\n"
+                       + $"Velocidade: {windSpeed}KT (nós).";
+                }
+            }
 
             return result;
         }

@@ -33,7 +33,7 @@ namespace Air_BOT
                     + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
                     + $"\n☁️ Situação meteorológica:\n"
                     + $"\n🔴 Vento:" 
-                    + $"\n{GetInfo("2019112115 - METAR SBMG 211500Z 02005KT 330V100 CAVOK 31/19 Q1013=")}\n"
+                    + $"\n{GetInfo(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
                     + $"{GetWeatherData(Metar)}\n"
                     + $"\n🔴 Temperatura:\n"
@@ -47,7 +47,7 @@ namespace Air_BOT
                     + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
                     + $"\n☁️ Situação meteorológica:\n"
                     + $"\n🔴 Vento:" 
-                    + $"\n{GetInfo("2019112115 - METAR SBMG 211500Z 02005KT 330V100 CAVOK 31/19 Q1013=")}\n"
+                    + $"\n{GetInfo(Metar)}\n"
                     + $"\n🔴 Visibilidade:\n"
                     + $"{GetVisibilityData(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
@@ -90,46 +90,46 @@ namespace Air_BOT
 
         protected string GetVisibilityData(string Metar)
         {
-            var result = string.Empty;
+            // var result = string.Empty;
 
-            if (Metar.Substring(40, 5).Contains("V"))
-            {
-                var aList = new AirportListWeather();
+            // if (Metar.Substring(40, 5).Contains("V"))
+            // {
+            //     var aList = new AirportListWeather();
 
-                var a = Metar.Substring(Metar.IndexOf("V"), 9).Substring(4);
+            //     var a = Metar.Substring(Metar.IndexOf("V"), 9).Substring(4);
                 
-                var b = int.Parse(a);
+            //     var b = int.Parse(a);
 
-                if (b >= 9999)
-                {
-                    result = "Acima dos 10km.";
-                }
-                else
-                {
-                    var c = b / 1000;
-                    result = $"Distância de {c}km";
-                }
+            //     if (b >= 9999)
+            //     {
+            //         result = "Acima dos 10km.";
+            //     }
+            //     else
+            //     {
+            //         var c = b / 1000;
+            //         result = $"Distância de {c}km";
+            //     }
 
-                return result;
-            }
-            else
-            {
-                var a = Metar.Substring(39, 6);
+            //     return result;
+            // }
+            // else
+            // {
+            //     var a = Metar.Substring(39, 6);
 
-                var b = int.Parse(a);
+            //     var b = int.Parse(a);
 
-                if (b >= 9999)
-                {
-                    result = "Visibilidade acima dos 10km.";
-                }
-                else
-                {
-                    var c = b / 1000;
-                    result = $"Distância de {c}km";
-                }
+            //     if (b >= 9999)
+            //     {
+            //         result = "Visibilidade acima dos 10km.";
+            //     }
+            //     else
+            //     {
+            //         var c = b / 1000;
+            //         result = $"Distância de {c}km";
+            //     }
 
-                return result;
-            }
+                return "";
+            // }
         }
 
         protected string GetTemperature(string Metar)
