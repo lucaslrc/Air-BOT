@@ -49,14 +49,12 @@ namespace Air_BOT
                     "L","Ç","Z","X","C","B","N","M"
                 };
     
-                var variation = Metar.Substring(Metar.IndexOf("KT"), 10);
+                var variation = Metar.Substring(Metar.IndexOf("KT"), 10).Substring(3);
                 var windSpeed = Metar.Substring(35, 2);
                 var windDirection = Metar.Substring(32, 3);
                 var variation1 = Metar.Substring(39, 8).Substring(0, 4);
                 var variation2 = Metar.Substring(39, 8).Substring(5, 3);
                 var result = string.Empty;
-
-                Console.WriteLine(variation);
         
                 if (Metar.Contains("VRB"))
                 {
@@ -69,26 +67,33 @@ namespace Air_BOT
                 {
                     foreach (var item in Weather)
                     {
-                        foreach (var cha in othersCharacters)
+                        foreach (var character in othersCharacters)
                         {
+
+                            var consultaDeTag = Weather.Where(x => x.WeatherTag == variation);
+                            var test = variation.Contains(character);
+                            Console.WriteLine(variation);
+                            Console.WriteLine(test);
+                            Console.WriteLine(variation.IndexOf("V"));
+                            
                             if (variation.Contains(item.WeatherTag))
                             {
                                 result = $"Direção: {windDirection}° (graus);\n"
                                     + $"Velocidade: {windSpeed}KT (nós).";
                             }
-                            else if (variation.Contains(cha))
+                            else if (variation.Contains(character.FirstOrDefault()))
                             {
                                 result = $"Direção: {windDirection}° (graus);\n"
                                     + $"Velocidade: {windSpeed}KT (nós).";
                             }
-                            else
+                            else if(consultaDeTag == null && variation.Substring(3).Contains("V"))
                             {
                                 result = $"Direção: {windDirection}° (graus);\n"
                                     + $"Velocidade: {windSpeed}KT (nós);\n"
                                     + $"Com variações entre {variation1}° e {variation2}° (graus).";
                             }
 
-                            Console.WriteLine(variation.Contains(cha) + cha);
+                            Console.WriteLine(!variation.Contains(character) + character);
                         }
                         // foreach (var cha in othersCharacters)
                         // {
