@@ -136,15 +136,27 @@ namespace Air_BOT
 
                     if (variation.Contains(item.WeatherTag) == variation.Contains(item.WeatherTag))
                     {
-                        var a = Weather.Where(x => item.WeatherTag != item.WeatherTag);
+                        var b = Weather.Where(x => item.WeatherTag != item.WeatherTag);
                         var singleVariation = string.Empty;
 
-                        if (a != null)
+                        if (b != null)
                         {
-                            
+                            // int count = variation.Count(s => s = item.WeatherTag);
+                            // Console.WriteLine(item.WeatherTag + item.WeatherTag);
+
+                            string pattern = $@"\b{item.WeatherTag}+\w*?\b";
+
+                            foreach (Match match in Regex.Matches(variation, pattern, RegexOptions.IgnoreCase))
+                            {
+                                resultVariation += $"{match.Value}\n";
+                            }
                         }
+
+                        //resultVariation += $"{item.WeatherInfo} {item.WeatherTag.Substring(3, 3)}";
                         
-                        resultVariation += $"{item.WeatherInfo} {variation.Substring(3, 3)} e {variation.Substring(3, 3)} FT (pés).\n";
+                        // resultVariation += $"{singleVariation}\n"
+                        //                  + $"{item.WeatherInfo} {variation.Substring(variation.IndexOf(item.WeatherTag)).Substring(3, 3)} "
+                        //                  + $"e {variation.Substring(variation.IndexOf(item.WeatherTag)).Substring(3, 3)} FT (pés).\n";
                     }
                     else
                     {
@@ -177,9 +189,9 @@ namespace Air_BOT
 
             var resultVisibility = string.Empty;
 
-            Console.WriteLine(visibility);
-            Console.WriteLine(visibility.Where(c => char.IsLetter(c)).Count() > 0);
-            Console.WriteLine(Weather.Where(x => x.WeatherTag == visibility) != null);
+            // Console.WriteLine(visibility);
+            // Console.WriteLine(visibility.Where(c => char.IsLetter(c)).Count() > 0);
+            // Console.WriteLine(Weather.Where(x => x.WeatherTag == visibility) != null);
 
             if (visibility.Where(c => char.IsLetter(c)).Count() > 0)
             {
