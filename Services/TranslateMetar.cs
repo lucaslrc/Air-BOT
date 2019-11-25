@@ -49,7 +49,7 @@ namespace Air_BOT
                     + $"\n🔴 Vento:" 
                     + $"\n{GetInfo(Metar)}\n"
                     + $"\n🔴 Visibilidade:\n"
-                    + $"{GetVisibilityData(Metar)}\n"
+                    + $"{GetVisibilityData("2019112118 - METAR SBMG 211800Z VRB02KT 1500 SCT040 FEW050TCU 33/18 Q1010=")}\n"
                     + $"\n🔴 Tempo predominante:\n"
                     + $"{GetWeatherData(Metar)}\n"
                     + $"\n🔴 Temperatura:\n"
@@ -81,18 +81,18 @@ namespace Air_BOT
             return a.GetWeatherInfo(Metar);
         }
 
+        protected string GetVisibilityData(string Metar)
+        {
+            var a = new AirportListWeather();
+
+            return a.GetVisibility(Metar);
+        }
+
         protected string GetWeatherData(string Metar)
         {
             var airportWeather = new AirportListWeather();
 
             return airportWeather.GetWeather(Metar);
-        }
-
-        protected string GetVisibilityData(string Metar)
-        {
-            var visibility = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 4);
-
-            return visibility;
         }
 
         protected string GetTemperature(string Metar)

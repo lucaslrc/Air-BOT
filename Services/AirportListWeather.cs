@@ -134,11 +134,11 @@ namespace Air_BOT
 
                     if (variation1.Contains(item.WeatherTag) == variation2.Contains(item.WeatherTag))
                     {
-                        resultVariation += $"{item.WeatherInfo} {variation1.Substring(3)} e {variation2.Substring(3)} FT.\n";
+                        resultVariation += $"{item.WeatherInfo} {variation1.Substring(3)} e {variation2.Substring(3)} FT (pés).\n";
                     }
                     else
                     {
-                        resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(3, 3)} FT.\n";
+                        resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(3, 3)} FT (pés).\n";
                     }
                 }
             }
@@ -161,12 +161,29 @@ namespace Air_BOT
             }
         }
 
-        protected string GetVisibility(string Metar)
+        public string GetVisibility(string Metar)
         {
-            return null;
+            var visibility = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 4);
+
+            double conv = int.Parse(visibility);
+
+            var resultVisibility = string.Empty;
+
+            if (visibility.Contains("9999"))
+            {
+                resultVisibility = "Distância: Acima dos 10km (quilômetros).";
+            }
+            else
+            {
+                var result = conv / 1000;
+
+                resultVisibility = $"Distância: {result.ToString()}km (quilômetros).";
+            }
+
+            return resultVisibility;
         }
 
-        protected string GetTemperature(string Metar)
+        public string GetTemperature(string Metar)
         {
             return null;
         }
