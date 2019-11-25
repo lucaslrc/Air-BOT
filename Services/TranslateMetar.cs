@@ -12,7 +12,6 @@ namespace Air_BOT
             var dateMM = Metar.Substring(4, 2);
             var dateDD = Metar.Substring(24, 2);
             var dateHH = Metar.Substring(26, 2);
-            var ifContainWindVariation = Metar.Substring(43, 1).Contains("V");
 
             var result = string.Empty;
 
@@ -35,8 +34,8 @@ namespace Air_BOT
                     + $"\n🔴 Vento:" 
                     + $"\n{GetInfo(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
-                    + $"{GetWeatherData(Metar)}\n"
-                    + $"\n🔴 Temperatura:\n"
+                    + $"{GetWeatherData("2019112216 - METAR SBBV 221600Z 28003KT 9999 VCSH BKN007 BKN020 FEW025TCU BKN080 24/22 Q1013=")}\n"
+                    + $"🔴 Temperatura:\n"
                     + $"{GetTemperature(Metar)}";
             }
             else
@@ -49,10 +48,10 @@ namespace Air_BOT
                     + $"\n🔴 Vento:" 
                     + $"\n{GetInfo(Metar)}\n"
                     + $"\n🔴 Visibilidade:\n"
-                    + $"{GetVisibilityData("2019112118 - METAR SBMG 211800Z VRB02KT 1500 SCT040 FEW050TCU 33/18 Q1010=")}\n"
+                    + $"{GetVisibilityData(Metar)}\n"
                     + $"\n🔴 Tempo predominante:\n"
-                    + $"{GetWeatherData(Metar)}\n"
-                    + $"\n🔴 Temperatura:\n"
+                    + $"{GetWeatherData("2019112216 - METAR SBBV 221600Z 28003KT 9999 VCSH BKN007 BKN020 FEW025TCU BKN080 24/22 Q1013=")}\n"
+                    + $"🔴 Temperatura:\n"
                     + $"{GetTemperature(Metar)}";
             }
             return result;

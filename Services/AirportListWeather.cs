@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Linq;
 using System;
 using System.Xml;
@@ -21,6 +22,8 @@ namespace Air_BOT
             new WeatherModel {WeatherTag = "-RA", WeatherInfo = "Chuva fraca."},
             new WeatherModel {WeatherTag = "+RA", WeatherInfo = "Chuva forte."},
             new WeatherModel {WeatherTag = "TS", WeatherInfo = "Trovoada."},
+            new WeatherModel {WeatherTag = "-TS", WeatherInfo = "Trovoada fraca."},
+            new WeatherModel {WeatherTag = "+TS", WeatherInfo = "Trovoada forte."},
             new WeatherModel {WeatherTag = "SH", WeatherInfo = "Pancadas de chuva."},
             new WeatherModel {WeatherTag = "HZ", WeatherInfo = "Névoa Seca."},
             new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
@@ -119,7 +122,7 @@ namespace Air_BOT
 
             foreach (var item in Weather)
             {
-                if (Metar.Substring(24).Contains(item.WeatherTag))
+                if (Metar.Substring(Metar.IndexOf("KT")).Contains(item.WeatherTag))
                 {
                     resultWeather = item.WeatherInfo + "\n";
                 }
@@ -129,12 +132,19 @@ namespace Air_BOT
             {
                 if (Metar.Contains(item.WeatherTag))
                 {   
-                    var variation1 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 6);
-                    var variation2 = Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0, 14).Substring(7, 7);
+                    var variation = Metar.Substring(Metar.IndexOf(item.WeatherTag));
 
-                    if (variation1.Contains(item.WeatherTag) == variation2.Contains(item.WeatherTag))
+                    if (variation.Contains(item.WeatherTag) == variation.Contains(item.WeatherTag))
                     {
-                        resultVariation += $"{item.WeatherInfo} {variation1.Substring(3)} e {variation2.Substring(3)} FT (pés).\n";
+                        var a = Weather.Where(x => item.WeatherTag != item.WeatherTag);
+                        var singleVariation = string.Empty;
+
+                        if (a != null)
+                        {
+                            
+                        }
+                        
+                        resultVariation += $"{item.WeatherInfo} {variation.Substring(3, 3)} e {variation.Substring(3, 3)} FT (pés).\n";
                     }
                     else
                     {
@@ -165,16 +175,37 @@ namespace Air_BOT
         {
             var visibility = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 4);
 
-            double conv = int.Parse(visibility);
-
             var resultVisibility = string.Empty;
 
-            if (visibility.Contains("9999"))
+            Console.WriteLine(visibility);
+            Console.WriteLine(visibility.Where(c => char.IsLetter(c)).Count() > 0);
+            Console.WriteLine(Weather.Where(x => x.WeatherTag == visibility) != null);
+
+            if (visibility.Where(c => char.IsLetter(c)).Count() > 0)
+            {
+                if (Weather.Any(x => x.WeatherTag == visibility) == true)
+                {
+                    return null;
+                }
+                else
+                {
+                    //Caso contenha variação
+                    if (visibility.Substring(4).Contains("V"))
+                    {
+                        return "Contém variação";
+                    }
+
+                    return "Contém letras";
+                }
+            }
+            else if (visibility.Contains("9999"))
             {
                 resultVisibility = "Distância: Acima dos 10km (quilômetros).";
             }
             else
             {
+                double conv = int.Parse(visibility);
+
                 var result = conv / 1000;
 
                 resultVisibility = $"Distância: {result.ToString()}km (quilômetros).";
