@@ -25,7 +25,7 @@ namespace Air_BOT
             new WeatherModel {WeatherTag = "HZ", WeatherInfo = "Névoa Seca."},
             new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
             new WeatherModel {WeatherTag = "FG", WeatherInfo = "Nevoeiro."},
-            // new WeatherModel {WeatherTag = "GR", WeatherInfo = "Granizo."}
+            new WeatherModel {WeatherTag = "GR", WeatherInfo = "Granizo."}
         };
 
         List<VariationsWeatherModel> Variations = new List<VariationsWeatherModel>() {
@@ -43,75 +43,70 @@ namespace Air_BOT
 
         protected string GetWind(string Metar)
         {
-                List<string> othersCharacters = new List<string>() {
-                    "Q","W","E","R","T","Y","U","I","O",
-                    "P","A","S","D","F","G","H","J","K",
-                    "L","Ç","Z","X","C","B","N","M"
-                };
-    
-                var variation = Metar.Substring(Metar.IndexOf("KT"), 10);
-                var windSpeed = Metar.Substring(35, 2);
-                var windDirection = Metar.Substring(32, 3);
-                var variation1 = Metar.Substring(39, 8).Substring(0, 4);
-                var variation2 = Metar.Substring(39, 8).Substring(5, 3);
-                var result = string.Empty;
+            var variation = Metar.Substring(Metar.IndexOf("KT"), 7).Substring(6);
 
-                Console.WriteLine(variation);
-        
+            var windSpeed = Metar.Substring(35, 2);
+            var windDirection = Metar.Substring(32, 3); 
+
+            var gustsVerification = Metar.Substring(32, 10);
+
+            var result = string.Empty;
+
+            foreach (var item in Weather)
+            {
                 if (Metar.Contains("VRB"))
                 {
                     var vrbSpeed = Metar.Substring(Metar.IndexOf("VRB"), 5).Substring(3);
 
-                    result = $"Direção: Variável;\n"
-                        + $"Velocidade: {vrbSpeed}KT (nós).";
-                }
-                else if (variation.Contains("V"))
-                {
-                    foreach (var item in Weather)
+                    if (Metar.Substring(32, 9).Contains("G"))
                     {
-                        foreach (var cha in othersCharacters)
-                        {
-                            if (variation.Contains(item.WeatherTag))
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós).";
-                            }
-                            else if (variation.Contains(cha))
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós).";
-                            }
-                            else
-                            {
-                                result = $"Direção: {windDirection}° (graus);\n"
-                                    + $"Velocidade: {windSpeed}KT (nós);\n"
-                                    + $"Com variações entre {variation1}° e {variation2}° (graus).";
-                            }
+                        var gusts = gustsVerification.Substring(gustsVerification.IndexOf("G"), 3).Substring(1);
 
-                            Console.WriteLine(variation.Contains(cha) + cha);
-                        }
-                        // foreach (var cha in othersCharacters)
-                        // {
-                        //     Console.WriteLine($"{variation.Contains(item.WeatherTag)} {variation.Contains(cha)}");
-                        //     if (variation.Contains(item.WeatherTag))
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós).";
-                        //     }
-                        //     else if (variation.Substring(variation.IndexOf("V")).Contains(cha))
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós).";
-                        //     }
-                        //     else
-                        //     {
-                        //         result = $"Direção: {windDirection}° (graus);\n"
-                        //             + $"Velocidade: {windSpeed}KT (nós);\n"
-                        //             + $"Com variações entre {variation1}° e {variation2}° (graus).";
-                        //     }
-                        // }
+                        result = $"Direção: Variável;\n"
+                            + $"Velocidade: {vrbSpeed}KT (nós), com rajadas de {gusts}KT.";
+                    }
+                    else
+                    {
+                        result = $"Direção: Variável;\n"
+                            + $"Velocidade: {vrbSpeed}KT (nós).";
                     }
                 }
+                else if (!variation.Contains(item.WeatherTag) && variation.Contains("V"))
+                {
+                    var variation1 = Metar.Substring(39, 8).Substring(0, 4);
+                    var variation2 = Metar.Substring(39, 8).Substring(5, 3);
+
+                    if (Metar.Substring(32, 9).Contains("G"))
+                    {
+                        var gusts = gustsVerification.Substring(gustsVerification.IndexOf("G"), 3).Substring(1);
+
+                        result = $"Direção: {windDirection}° (graus);\n"
+                            + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
+                            + $"Velocidade: {windSpeed}KT (nós), com rajadas de {gusts}KT;";
+                    }
+                    else
+                    {
+                        result = $"Direção: {windDirection}° (graus);\n"
+                            + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
+                            + $"Velocidade: {windSpeed}KT (nós);";
+                    }
+                }
+                else
+                {
+                    if (Metar.Substring(32, 9).Contains("G"))
+                    {
+                        var gusts = gustsVerification.Substring(gustsVerification.IndexOf("G"), 3).Substring(1);
+
+                        result = $"Direção: {windDirection}° (graus);\n"
+                            + $"Velocidade: {windSpeed}KT (nós), com rajadas de {gusts}KT.";
+                    }
+                    else
+                    {
+                        result = $"Direção: {windDirection}° (graus);\n"
+                            + $"Velocidade: {windSpeed}KT (nós).";
+                    }   
+                }
+            }
 
             return result;
         }
@@ -124,11 +119,8 @@ namespace Air_BOT
 
             foreach (var item in Weather)
             {
-                if (Metar.Contains(item.WeatherTag))
+                if (Metar.Substring(24).Contains(item.WeatherTag))
                 {
-                    
-                    // var a = Metar.Substring(4);
-                    // Console.WriteLine(a.Substring(Metar.IndexOf(item.WeatherTag)).Substring(0,6));
                     resultWeather = item.WeatherInfo + "\n";
                 }
             }
@@ -167,6 +159,16 @@ namespace Air_BOT
                 return $"{resultWeather}"
                      + $"{resultVariation}";
             }
+        }
+
+        protected string GetVisibility(string Metar)
+        {
+            return null;
+        }
+
+        protected string GetTemperature(string Metar)
+        {
+            return null;
         }
     }
 }
