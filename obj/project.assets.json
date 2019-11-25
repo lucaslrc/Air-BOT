@@ -4705,30 +4705,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lucas.costa\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/lrc/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucas.costa\\Desktop\\Air-BOT\\Air-BOT.csproj",
+      "projectUniqueName": "/home/lrc/Documents/CSharp/Air-BOT/Air-BOT.csproj",
       "projectName": "Air-BOT",
-      "projectPath": "C:\\Users\\lucas.costa\\Desktop\\Air-BOT\\Air-BOT.csproj",
-      "packagesPath": "C:\\Users\\lucas.costa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucas.costa\\Desktop\\Air-BOT\\obj\\",
+      "projectPath": "/home/lrc/Documents/CSharp/Air-BOT/Air-BOT.csproj",
+      "packagesPath": "/home/lrc/.nuget/packages/",
+      "outputPath": "/home/lrc/Documents/CSharp/Air-BOT/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\lucas.costa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/lrc/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4760,12 +4754,18 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.0.101/RuntimeIdentifierGraph.json"
       }
     }
   }
