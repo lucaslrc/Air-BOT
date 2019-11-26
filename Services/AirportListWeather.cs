@@ -274,7 +274,6 @@ namespace Air_BOT
 
             var resultVisibility = string.Empty;
 
-            Console.WriteLine(visibility.Substring(3, 4));
 
             if (visibility.Substring(3, 12).Contains("9999"))
             {
@@ -320,13 +319,16 @@ namespace Air_BOT
 
         protected string GetTemperature(string Metar)
         {
-            var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray();
             var a = Metar.Reverse().ToArray();
-            string result = new string(a);
-            Console.WriteLine(result + " " + result.GetType() + "\n" + result.Substring(4, 10));
-            var tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
-            return $"Temperatura: {tLeft}\n"
-                 + $"Ponto de orvalho: {tRight}°c";
+
+            string b = new string(a);
+            string c = new string(b.Substring(b.IndexOf("/")).Substring(1, 2));
+
+            string tLeft = new string(c.ToCharArray().Reverse().ToArray());
+            string tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
+            
+            return $"Temperatura: {tLeft}°C\n"
+                 + $"Ponto de orvalho: {tRight}°C";
         }
     }
 }
