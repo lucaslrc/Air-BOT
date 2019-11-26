@@ -149,14 +149,17 @@ namespace Air_BOT
                             foreach (Match match in Regex.Matches(variation, pattern, RegexOptions.IgnoreCase))
                             {
                                 resultVariation += $"{match.Value}\n";
+                                Console.WriteLine(resultVariation.Where(x => resultVariation != match.Value).ToArray());
                             }
+                        }
+                        else
+                        {
+                            resultVariation += $"{item.WeatherInfo} {variation.Substring(3, 3)} e {variation.Substring(3, 3)} FT (pés).\n";
                         }
 
                         //resultVariation += $"{item.WeatherInfo} {item.WeatherTag.Substring(3, 3)}";
                         
-                        // resultVariation += $"{singleVariation}\n"
-                        //                  + $"{item.WeatherInfo} {variation.Substring(variation.IndexOf(item.WeatherTag)).Substring(3, 3)} "
-                        //                  + $"e {variation.Substring(variation.IndexOf(item.WeatherTag)).Substring(3, 3)} FT (pés).\n";
+                        
                     }
                     else
                     {
