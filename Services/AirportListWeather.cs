@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using System.Linq;
 using System;
 using System.Xml;
@@ -17,13 +18,10 @@ namespace Air_BOT
             new WeatherModel {WeatherTag = "RETSRA", WeatherInfo = "Chuva e trovoada recente."},
             new WeatherModel {WeatherTag = "RERA", WeatherInfo = "Chuva recente."},
             new WeatherModel {WeatherTag = "RETS", WeatherInfo = "Trovoada recente."},
+            new WeatherModel {WeatherTag = "TSRA", WeatherInfo = "Chuva com trovoada."},
             new WeatherModel {WeatherTag = "DZ", WeatherInfo = "Chuvisco."},
             new WeatherModel {WeatherTag = "RA", WeatherInfo = "Chuva."},
-            new WeatherModel {WeatherTag = "-RA", WeatherInfo = "Chuva fraca."},
-            new WeatherModel {WeatherTag = "+RA", WeatherInfo = "Chuva forte."},
             new WeatherModel {WeatherTag = "TS", WeatherInfo = "Trovoada."},
-            new WeatherModel {WeatherTag = "-TS", WeatherInfo = "Trovoada fraca."},
-            new WeatherModel {WeatherTag = "+TS", WeatherInfo = "Trovoada forte."},
             new WeatherModel {WeatherTag = "SH", WeatherInfo = "Pancadas de chuva."},
             new WeatherModel {WeatherTag = "HZ", WeatherInfo = "Névoa Seca."},
             new WeatherModel {WeatherTag = "BR", WeatherInfo = "Névoa úmida."},
@@ -41,8 +39,111 @@ namespace Air_BOT
 
         public string GetWeatherInfo(string Metar)
         {
-            return GetWind(Metar);
+            var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
+            var dateYY = Metar.Substring(0, 4);
+            var dateMM = Metar.Substring(4, 2);
+            var dateDD = Metar.Substring(6, 2);
+            var dateHH = Metar.Substring(8, 2);
+
+            var result = string.Empty;
+
+            if (string.IsNullOrEmpty(Metar))
+            {
+                return "Não foi possível simplificar o METAR, por favor digite um METAR válido.";
+            }
+            else if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "Não foi possível simplificar o METAR, esta função está disponível "
+                    + "apenas para alguns aeroportos federais brasileiros.";
+            }
+            else if (Metar.Contains("CAVOK"))
+            {
+                result = $"Metar: {Metar}\n"
+                    + $"✈️ Icao selecionado: {Icao}\n"
+                    + $"\n'/infoaero'\n"
+                    + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                    + $"\n☁️ Situação meteorológica:\n"
+                    + $"\n🔴 Vento:" 
+                    + $"\n{GetWind(Metar)}\n"
+                    + $"\n🔴 Tempo predominante:\n"
+                    + $"{GetWeather(Metar)}\n"
+                    + $"🔴 Temperatura:\n"
+                    + $"{GetTemperature(Metar)}";
+            }
+            else
+            {
+                result = $"Metar: {Metar}\n"
+                    + $"✈️ Icao selecionado: {Icao}\n"
+                    + $"\n'/infoaero'\n"
+                    + $"\n📅 Metar confeccionado em {dateDD} de {ConvertDate(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
+                    + $"\n☁️ Situação meteorológica:\n"
+                    + $"\n🔴 Vento:" 
+                    + $"\n{GetWind(Metar)}\n"
+                    + $"\n🔴 Visibilidade:\n"
+                    + $"{GetVisibility(Metar)}\n"
+                    + $"\n🔴 Tempo predominante:\n"
+                    + $"{GetWeather(Metar)}\n"
+                    + $"🔴 Temperatura:\n"
+                    + $"{GetTemperature(Metar)}";
+            }
+            return result;
         }
+
+        protected string ConvertDate(string Date)
+        {
+            switch (Date)
+            {
+                case "1":
+                    Date = "Janeiro";
+                break;
+                
+                case "2":
+                    Date = "Fevereiro";
+                break;
+
+                case "3":
+                    Date = "Março";
+                break;
+
+                case "4":
+                    Date = "Abril";
+                break;
+
+                case "5":
+                    Date = "Maio";
+                break;
+
+                case "6":
+                    Date = "Junho";
+                break;
+
+                case "7":
+                    Date = "Julho";
+                break;
+
+                case "8":
+                    Date = "Agosto";
+                break;
+
+                case "9":
+                    Date = "Setembro";
+                break;
+
+                case "10":
+                    Date = "Outubro";
+                break;
+
+                case "11":
+                    Date = "Novembro";
+                break;
+
+                case "12":
+                    Date = "Dezembro";
+                break;
+            }
+
+            return Date;
+        } 
 
         protected string GetWind(string Metar)
         {
@@ -114,9 +215,8 @@ namespace Air_BOT
             return result;
         }
 
-        public string GetWeather(string Metar)
+        protected string GetWeather(string Metar)
         {
-            var resultWind = string.Empty;
             var resultWeather = string.Empty;
             var resultVariation = string.Empty;
 
@@ -124,7 +224,14 @@ namespace Air_BOT
             {
                 if (Metar.Substring(Metar.IndexOf("KT")).Contains(item.WeatherTag))
                 {
-                    resultWeather = item.WeatherInfo + "\n";
+                    var weather = Metar.Substring(Metar.IndexOf("KT"));
+
+                    string pattern = $@"\b{item.WeatherTag}+\w*?\b";
+
+                    foreach (Match match in Regex.Matches(weather, pattern, RegexOptions.IgnoreCase))
+                    {
+                        resultWeather += $"{item.WeatherInfo}\n";
+                    }
                 }
             }
 
@@ -134,21 +241,11 @@ namespace Air_BOT
                 {   
                     var variation = Metar.Substring(Metar.IndexOf(item.WeatherTag));
 
-                    if (variation.Contains(item.WeatherTag) == variation.Contains(item.WeatherTag))
-                    {
-                        var a = Weather.Where(x => item.WeatherTag != item.WeatherTag);
-                        var singleVariation = string.Empty;
+                    string pattern = $@"\b{item.WeatherTag}+\w*?\b";
 
-                        if (a != null)
-                        {
-                            
-                        }
-                        
-                        resultVariation += $"{item.WeatherInfo} {variation.Substring(3, 3)} e {variation.Substring(3, 3)} FT (pés).\n";
-                    }
-                    else
+                    foreach (Match match in Regex.Matches(variation, pattern, RegexOptions.IgnoreCase))
                     {
-                        resultVariation += $"{item.WeatherInfo} {Metar.Substring(Metar.IndexOf(item.WeatherTag)).Substring(3, 3)} FT (pés).\n";
+                        resultVariation += $"{item.WeatherInfo} {match.Value.Substring(3, 3)}.\n";
                     }
                 }
             }
@@ -170,18 +267,19 @@ namespace Air_BOT
                      + $"{resultVariation}";
             }
         }
-
-        public string GetVisibility(string Metar)
+        protected string GetVisibility(string Metar)
         {
-            var visibility = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 4);
+            var visibility = Metar.Substring(Metar.IndexOf("KT"));
 
             var resultVisibility = string.Empty;
 
-            Console.WriteLine(visibility);
-            Console.WriteLine(visibility.Where(c => char.IsLetter(c)).Count() > 0);
-            Console.WriteLine(Weather.Where(x => x.WeatherTag == visibility) != null);
+            Console.WriteLine(visibility.Substring(3, 4));
 
-            if (visibility.Where(c => char.IsLetter(c)).Count() > 0)
+            if (visibility.Substring(3, 12).Contains("9999"))
+            {
+                resultVisibility = "Distância: Acima dos 10km (quilômetros).";
+            }
+            else if (visibility.Substring(3, 4).Where(c => char.IsLetter(c)).Count() > 0)
             {
                 if (Weather.Any(x => x.WeatherTag == visibility) == true)
                 {
@@ -189,22 +287,27 @@ namespace Air_BOT
                 }
                 else
                 {
-                    //Caso contenha variação
-                    if (visibility.Substring(4).Contains("V"))
+                    if (visibility.Substring(6).Contains("V"))
                     {
-                        return "Contém variação";
-                    }
+                        var v = visibility.Substring(11, 4);
+                        
+                        Console.WriteLine(v);
+                        Console.WriteLine(v.Where(c => char.IsNumber(c)).Count() > 0);
 
-                    return "Contém letras";
+                        if(v.Where(c => char.IsNumber(c)).Count() > 0)
+                        {
+                            double conv = int.Parse(v);
+
+                            var result = conv / 1000;
+
+                            resultVisibility = $"Distância: {result.ToString()}km (quilômetros).";
+                        }
+                    }
                 }
-            }
-            else if (visibility.Contains("9999"))
-            {
-                resultVisibility = "Distância: Acima dos 10km (quilômetros).";
             }
             else
             {
-                double conv = int.Parse(visibility);
+                double conv = int.Parse(visibility.Substring(3, 5));
 
                 var result = conv / 1000;
 
@@ -214,9 +317,11 @@ namespace Air_BOT
             return resultVisibility;
         }
 
-        public string GetTemperature(string Metar)
+        protected string GetTemperature(string Metar)
         {
-            return null;
+            var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray().Count();
+            var tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
+            return $"Ponto de orvalho: {tRight}°c";
         }
     }
 }
