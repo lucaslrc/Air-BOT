@@ -186,13 +186,13 @@ namespace Air_BOT
 
                         result = $"Direção: {windDirection}° (graus);\n"
                             + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
-                            + $"Velocidade: {windSpeed}KT (nós), com rajadas de {gusts}KT;";
+                            + $"Velocidade: {windSpeed}KT (nós), com rajadas de {gusts}KT.";
                     }
                     else
                     {
                         result = $"Direção: {windDirection}° (graus);\n"
                             + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
-                            + $"Velocidade: {windSpeed}KT (nós);";
+                            + $"Velocidade: {windSpeed}KT (nós).";
                     }
                 }
                 else
