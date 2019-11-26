@@ -267,6 +267,7 @@ namespace Air_BOT
                      + $"{resultVariation}";
             }
         }
+
         protected string GetVisibility(string Metar)
         {
             var visibility = Metar.Substring(Metar.IndexOf("KT"));
@@ -319,9 +320,13 @@ namespace Air_BOT
 
         protected string GetTemperature(string Metar)
         {
-            var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray().Count();
+            var tLeft = Metar.Substring(Metar.IndexOf("/", 1), 3).Reverse().ToArray();
+            var a = Metar.Reverse().ToArray();
+            string result = new string(a);
+            Console.WriteLine(result + " " + result.GetType() + "\n" + result.Substring(4, 10));
             var tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
-            return $"Ponto de orvalho: {tRight}°c";
+            return $"Temperatura: {tLeft}\n"
+                 + $"Ponto de orvalho: {tRight}°c";
         }
     }
 }
