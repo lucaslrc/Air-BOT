@@ -327,8 +327,8 @@ namespace Air_BOT
             string tLeft = new string(c.ToCharArray().Reverse().ToArray());
             string tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
 
-            return $"Temperatura: {tLeft}°C\n"
-                 + $"Ponto de orvalho: {tRight}°C";
+            return $"Temperatura: {tLeft}°C;\n"
+                 + $"Ponto de orvalho: {tRight}°C.";
         }
     }
 }
