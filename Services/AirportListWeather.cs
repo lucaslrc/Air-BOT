@@ -147,7 +147,7 @@ namespace Air_BOT
 
         protected string GetWind(string Metar)
         {
-            var variation = Metar.Substring(Metar.IndexOf("KT"), 7).Substring(6);
+            var variation = Metar.Substring(Metar.IndexOf("KT"), 7).Substring(3);
 
             var windSpeed = Metar.Substring(35, 2);
             var windDirection = Metar.Substring(32, 3); 
@@ -177,8 +177,8 @@ namespace Air_BOT
                 }
                 else if (!variation.Contains(item.WeatherTag) && variation.Contains("V"))
                 {
-                    var variation1 = Metar.Substring(39, 8).Substring(0, 4);
-                    var variation2 = Metar.Substring(39, 8).Substring(5, 3);
+                    var variation1 = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 3);
+                    var variation2 = Metar.Substring(Metar.IndexOf("KT")).Substring(7, 3);
 
                     if (Metar.Substring(32, 9).Contains("G"))
                     {
@@ -326,7 +326,7 @@ namespace Air_BOT
 
             string tLeft = new string(c.ToCharArray().Reverse().ToArray());
             string tRight = Metar.Substring(Metar.IndexOf("/"), 3).Substring(1);
-            
+
             return $"Temperatura: {tLeft}°C\n"
                  + $"Ponto de orvalho: {tRight}°C";
         }
