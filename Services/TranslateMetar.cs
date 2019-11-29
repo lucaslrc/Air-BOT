@@ -36,11 +36,13 @@ namespace Air_BOT
             }
             else if (Icao.Contains("/"))
             {
-                return $"https://www.google.com/maps/search/?api=1&query={Icao.Substring(1)}";
+                return $"Link direcionando ao Google Maps: \n" 
+                     + $"https://www.google.com/maps/search/?api=1&query={Icao.Substring(1)}";
             }
             else
             {
-                return $"\nhttps://www.google.com/maps/search/?api=1&query={Icao}";
+                return $"Link direcionando ao Google Maps: \n" 
+                     + $"https://www.google.com/maps/search/?api=1&query={Icao)}";
             }  
         } 
     }
