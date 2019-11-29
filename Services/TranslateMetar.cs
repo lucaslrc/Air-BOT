@@ -42,7 +42,7 @@ namespace Air_BOT
             else
             {
                 return $"Link direcionando ao Google Maps: \n" 
-                     + $"https://www.google.com/maps/search/?api=1&query={Icao)}";
+                     + $"https://www.google.com/maps/search/?api=1&query={(Icao)}";
             }  
         } 
     }
