@@ -180,8 +180,6 @@ namespace Air_BOT
                     var variation1 = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 3);
                     var variation2 = Metar.Substring(Metar.IndexOf("KT")).Substring(7, 3);
 
-                    Console.WriteLine(variation.Substring(variation.IndexOf("V")).Substring(1, 1));
-
                     if (variation.Substring(variation.IndexOf("V")).Substring(1, 1).Where(c => char.IsNumber(c)).Count() > 0 == false)
                     {
                         result = $"Direção: {windDirection}° (graus);\n"
