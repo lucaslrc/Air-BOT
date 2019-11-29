@@ -20,13 +20,11 @@ namespace Air_BOT
             }
             else if (Icao.Contains("/"))
             {
-                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao.Substring(1)}\n"
-                     + $"\nhttps://www.google.com/maps/search/?api=1&query={Icao.Substring(1)}";
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao.Substring(1)}\n";
             }
             else
             {
-                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}\n"
-                     + $"\nhttps://www.google.com/maps/search/?api=1&query={Icao}";
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}\n";
             }  
         }
 
