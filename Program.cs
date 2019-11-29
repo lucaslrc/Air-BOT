@@ -90,8 +90,14 @@ namespace Air_BOT
             }
             else if (e.Message.Text == "/simplificar")
             {
-
-                if (Icao.Contains("/"))
+                if (String.IsNullOrEmpty(Icao))
+                {
+                    botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: "Não foi possível realizar esta ação, tente novamente usando outro METAR."
+                    );
+                }
+                else if (Icao.Contains("/"))
                 {
                     var translateMetar = new TranslateMetar();
                     botClient.SendTextMessageAsync(

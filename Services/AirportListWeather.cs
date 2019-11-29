@@ -147,7 +147,7 @@ namespace Air_BOT
 
         protected string GetWind(string Metar)
         {
-            var variation = Metar.Substring(Metar.IndexOf("KT"), 7).Substring(3);
+            var variation = Metar.Substring(Metar.IndexOf("KT"), 9).Substring(3);
 
             var windSpeed = Metar.Substring(35, 2);
             var windDirection = Metar.Substring(32, 3); 
@@ -180,9 +180,10 @@ namespace Air_BOT
                     var variation1 = Metar.Substring(Metar.IndexOf("KT")).Substring(3, 3);
                     var variation2 = Metar.Substring(Metar.IndexOf("KT")).Substring(7, 3);
 
-                    if (variation.Substring(variation.IndexOf("V")).Substring(1, 1).Where(c => char.IsNumber(c)).Count() > 0 == false)
+                    if (variation.Substring(variation.IndexOf("V")).Any(c => char.IsNumber(c)))
                     {
                         result = $"Direção: {windDirection}° (graus);\n"
+                            + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
                             + $"Velocidade: {windSpeed}KT (nós).";
                     }
                     else if (Metar.Substring(32, 9).Contains("G"))
@@ -196,7 +197,6 @@ namespace Air_BOT
                     else
                     {
                         result = $"Direção: {windDirection}° (graus);\n"
-                            + $"Com variações entre {variation1}° e {variation2}° (graus).\n"
                             + $"Velocidade: {windSpeed}KT (nós).";
                     }
                 }
