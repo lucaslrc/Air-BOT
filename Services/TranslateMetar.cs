@@ -20,11 +20,29 @@ namespace Air_BOT
             }
             else if (Icao.Contains("/"))
             {
-                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao.Substring(1)}";
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao.Substring(1)}\n"
+                     + $"\nhttps://www.google.com/maps/search/?api=1&query={Icao.Substring(1)}";
             }
             else
             {
-                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}";
+                return $"https://www.aisweb.aer.mil.br/index.cfm?i=aerodromos&codigo={Icao}\n"
+                     + $"\nhttps://www.google.com/maps/search/?api=1&query={Icao}";
+            }  
+        }
+
+        public string GetMapsLocation(string Icao)
+        {
+            if (Icao.Length == 0)
+            {
+                return "Não foi possível fazer a busca pelo aeroporto, digite um ICAO.";
+            }
+            else if (Icao.Contains("/"))
+            {
+                return $"https://www.google.com/maps/search/?api=1&query={Icao.Substring(1)}";
+            }
+            else
+            {
+                return $"\nhttps://www.google.com/maps/search/?api=1&query={Icao}";
             }  
         } 
     }

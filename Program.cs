@@ -39,6 +39,8 @@ namespace Air_BOT
                         + "'/listaicaos'"
                 );
             }
+
+
             else if (e.Message.Text.Length == 4 || e.Message.Text.Length == 5)
             {
                 if (Icao.Length >= 4)
@@ -65,6 +67,8 @@ namespace Air_BOT
 
                 Icao += e.Message.Text;
             }
+
+
             else if (e.Message.Text.Length < 4 && e.Message.Text.Contains("/"))
             {
                 if (e.Message.Text.Length == 3)
@@ -88,6 +92,8 @@ namespace Air_BOT
                     e.Message.Text = string.Empty;
                 }
             }
+
+
             else if (e.Message.Text == "/simplificar")
             {
                 if (String.IsNullOrEmpty(Icao))
@@ -114,6 +120,8 @@ namespace Air_BOT
                     );
                 }
             }
+
+
             else if (e.Message.Text == "/infoaero")
             {
                 var aPlist = new TranslateMetar();
@@ -125,6 +133,21 @@ namespace Air_BOT
 
                 Icao = string.Empty;        
             }
+
+
+            else if (e.Message.Text == "/googlemaps")
+            {
+                var aPlist = new TranslateMetar();
+
+                botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: aPlist.GetMapsLocation(Icao)
+                );
+
+                Icao = string.Empty;        
+            }
+
+
             else if (e.Message.Text == "/listaicaos")
             {
                 botClient.SendTextMessageAsync(
@@ -146,6 +169,8 @@ namespace Air_BOT
                         + "\n/SE  -  " + "/SP  -  " + "/TO\n"
                 );
             }
+
+
             else
             {
                 botClient.SendTextMessageAsync(
