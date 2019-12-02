@@ -6,11 +6,15 @@ namespace Air_BOT.Services.Methods
     {
         public string GetPressionMetar(string Metar)
         {
+            string result = string.Empty;
+
             var Pression = Metar.Substring(Metar.IndexOf("/"));
 
-            Console.WriteLine(Pression);
+            Console.WriteLine(Pression.Substring(Pression.IndexOf("Q")));
 
-            return "";
+            result = $"QNH: {Pression.Substring(Pression.IndexOf("Q")).Substring(1, 4)} hPa (hectoPascal).";
+
+            return result;
         }
     }
 }
