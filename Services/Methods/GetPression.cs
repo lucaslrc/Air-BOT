@@ -10,8 +10,6 @@ namespace Air_BOT.Services.Methods
 
             var Pression = Metar.Substring(Metar.IndexOf("/"));
 
-            Console.WriteLine(Pression.Substring(Pression.IndexOf("Q")));
-
             result = $"QNH: {Pression.Substring(Pression.IndexOf("Q")).Substring(1, 4)} hPa (hectoPascal).";
 
             return result;
