@@ -11,6 +11,7 @@ namespace Air_BOT.Services
         private GetVisibility Gvis = new GetVisibility();
         private GetWeather Gwea = new GetWeather();
         private GetWind Gwin = new GetWind();
+        private GetPression Gpre = new GetPression();
 
         public string GetWeatherInfo(string Metar)
         {
@@ -44,7 +45,9 @@ namespace Air_BOT.Services
                     + $"\n🔴 Tempo predominante:\n"
                     + $"{Gwea.GetWeatherMetar(Metar)}\n"
                     + $"🔴 Temperatura:\n"
-                    + $"{Gtem.GetTemperatureMetar(Metar)}";
+                    + $"{Gtem.GetTemperatureMetar(Metar)}\n"
+                    + $"\n🔴 Pressão:\n"
+                    + $"{Gpre.GetPressionMetar(Metar)}";
             }
             else
             {
@@ -61,7 +64,9 @@ namespace Air_BOT.Services
                     + $"\n🔴 Tempo predominante:\n"
                     + $"{Gwea.GetWeatherMetar(Metar)}\n"
                     + $"🔴 Temperatura:\n"
-                    + $"{Gtem.GetTemperatureMetar(Metar)}";
+                    + $"{Gtem.GetTemperatureMetar(Metar)}\n"
+                    + $"\n🔴 Pressão:\n"
+                    + $"{Gpre.GetPressionMetar(Metar)}";
             }
             return result;
         }
