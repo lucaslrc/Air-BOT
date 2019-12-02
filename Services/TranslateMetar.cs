@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Air_BOT
+namespace Air_BOT.Services
 {
     public class TranslateMetar
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Air_BOT
+namespace Air_BOT.Services.Helpers
 {
     public class AirportListIcao
     {
