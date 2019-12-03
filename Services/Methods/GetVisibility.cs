@@ -21,7 +21,6 @@ namespace Air_BOT.Services.Methods
             }
             else if (visibility.Substring(3, 4).Where(c => char.IsLetter(c)).Count() > 0)
             {
-                Console.WriteLine(visibility.Substring(3, 4));
                 if (ListW.Weather.Any(x => x.WeatherTag == visibility) == true)
                 {
                     return null;
