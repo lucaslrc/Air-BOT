@@ -15,12 +15,6 @@ namespace Air_BOT.Services
 
         public string GetWeatherInfo(string Metar)
         {
-            var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
-            var dateYY = Metar.Substring(0, 4);
-            var dateMM = Metar.Substring(4, 2);
-            var dateDD = Metar.Substring(6, 2);
-            var dateHH = Metar.Substring(8, 2);
-
             var result = string.Empty;
 
             if (string.IsNullOrEmpty(Metar))
@@ -34,6 +28,12 @@ namespace Air_BOT.Services
             }
             else if (Metar.Contains("CAVOK"))
             {
+                var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
+                var dateYY = Metar.Substring(0, 4);
+                var dateMM = Metar.Substring(4, 2);
+                var dateDD = Metar.Substring(6, 2);
+                var dateHH = Metar.Substring(8, 2);
+
                 result = $"Metar: {Metar}\n"
                     + $"✈️ Icao selecionado: {Icao}\n"
                     + $"\n'/infoaero'\n"
@@ -51,6 +51,12 @@ namespace Air_BOT.Services
             }
             else
             {
+                var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
+                var dateYY = Metar.Substring(0, 4);
+                var dateMM = Metar.Substring(4, 2);
+                var dateDD = Metar.Substring(6, 2);
+                var dateHH = Metar.Substring(8, 2);
+                
                 result = $"Metar: {Metar}\n"
                     + $"✈️ Icao selecionado: {Icao}\n"
                     + $"\n'/infoaero'\n"

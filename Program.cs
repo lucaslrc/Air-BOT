@@ -44,29 +44,55 @@ namespace Air_BOT
 
             else if (e.Message.Text.Length == 4 || e.Message.Text.Length == 5)
             {
-                if (Icao.Length >= 4)
+                Icao = e.Message.Text;
+                
+                if (Icao.Contains("/"))
                 {
-                    Icao = string.Empty;
-                }
+                    var a = GetIcaoCode(Icao.Substring(1));
 
-                if (e.Message.Text.Contains("/"))
-                {
-                   botClient.SendTextMessageAsync(
-                        chatId: e.Message.Chat,
-                        text: $"{GetIcaoCode(e.Message.Text.Substring(1))}\n"
-                            + "'/simplificar'"
-                    ); 
+                    if (a != null)
+                    {
+                        botClient.SendTextMessageAsync(
+                            chatId: e.Message.Chat,
+                            text: $"{a}\n"
+                                + "'/simplificar'"
+                        ); 
+                    }
+                    else
+                    {
+                        botClient.SendTextMessageAsync(
+                            chatId: e.Message.Chat,
+                            text: "METAR não localizado na base de dados da REDEMET, por favor tente outro ICAO."
+                        );
+
+                        Icao = string.Empty;
+                    }
+                    
                 }
                 else
                 {
-                    botClient.SendTextMessageAsync(
-                        chatId: e.Message.Chat,
-                        text: $"{GetIcaoCode(e.Message.Text)}"
-                            + "'/simplificar'"
-                    );
+                    var a = GetIcaoCode(Icao);
+
+                    if (a != null)
+                    {
+                        botClient.SendTextMessageAsync(
+                            chatId: e.Message.Chat,
+                            text: $"{a}\n"
+                                + "'/simplificar'"
+                        ); 
+                    }
+                    else
+                    {
+                        botClient.SendTextMessageAsync(
+                            chatId: e.Message.Chat,
+                            text: "METAR não localizado na base de dados da REDEMET, por favor tente outro ICAO."
+                        );
+
+                        Icao = string.Empty;
+                    }
                 }
 
-                Icao += e.Message.Text;
+                e.Message.Text = string.Empty;
             }
 
 
@@ -186,31 +212,30 @@ namespace Air_BOT
 
         public static string GetIcaoCode(string Code)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"http://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local={Code}&msg=metar");
- 
-            request.Method = "GET";
-            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-    
-            var content = string.Empty;
-    
-            using (var response = (HttpWebResponse)request.GetResponse())
-            {
-                using (var stream = response.GetResponseStream())
-                {
-                    using (var sr = new StreamReader(stream))
-                    {
-                        content = sr.ReadToEnd();
-                    }
-                }
-            }
+            // Create a request for the URL. 		
+            WebRequest request = WebRequest.Create ($"http://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local={Code}&msg=metar");
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            // Get the response.
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse ();
+            // Get the stream containing content returned by the server.
+            Stream dataStream = response.GetResponseStream ();
+            // Open the stream using a StreamReader for easy access.
+            StreamReader reader = new StreamReader (dataStream);
+            // Read the content.
+            string responseFromServer = reader.ReadToEnd ();
+            // Cleanup the streams and the response.
+            reader.Close ();
+            dataStream.Close ();
+            response.Close ();
 
-            if (content.Contains("não localizada na base de dados da REDEMET"))
+            if (responseFromServer.Contains("não localizada na base de dados da REDEMET"))
             {
-                return string.Empty + content;
+                return null;
             }
             else
             {
-                return content;
+                return responseFromServer;
             }
         }
     }
