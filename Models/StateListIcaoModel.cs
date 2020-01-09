@@ -1,4 +1,4 @@
-namespace Air_BOT
+namespace Air_BOT.Models
 {
     public class StateListIcaoModel
     {

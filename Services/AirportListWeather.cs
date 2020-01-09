@@ -1,17 +1,22 @@
-using System.Linq;
 using System;
-using Air_BOT.Services.Methods;
+using System.Drawing;
+using System.Text;
+using Air_BOT.Models;
+using Air_BOT.Services.WeatherServices.Methods;
 
 namespace Air_BOT.Services
 {
     public class AirportListWeather
     {
-        private ConvertDate Cdat = new ConvertDate();
-        private GetTemperature Gtem = new GetTemperature();
-        private GetVisibility Gvis = new GetVisibility();
-        private GetWeather Gwea = new GetWeather();
-        private GetWind Gwin = new GetWind();
-        private GetPression Gpre = new GetPression();
+        private GetDate Gdate = new GetDate();
+        private GetHour Ghour = new GetHour();
+        private GetDirectionWind Gdirection = new GetDirectionWind();
+        private GetWindSpeed Gspeed = new GetWindSpeed();
+        private GetVisibility Gvisibility = new GetVisibility();
+        private GetWeather Gweather = new GetWeather();
+        private GetTemperature Gtemperature = new GetTemperature();
+        private GetDewPoint GdewPoint = new GetDewPoint();
+        private GetPression Gpression = new GetPression();
 
         public string GetWeatherInfo(string Metar)
         {
@@ -19,63 +24,62 @@ namespace Air_BOT.Services
 
             if (string.IsNullOrEmpty(Metar))
             {
-                return "Não foi possível simplificar o METAR, por favor digite um METAR válido.";
+                return  
+                        $"{Metar}\n" +
+                        $"Não foi possível simplificar o METAR, por favor insira um ICAO válido para busca do METAR.";
             }
             else if (!Metar.Contains("SB", StringComparison.InvariantCultureIgnoreCase))
             {
-                return "Não foi possível simplificar o METAR, esta função está disponível "
-                    + "apenas para alguns aeroportos federais brasileiros.";
+                return  
+                        $"{Metar}\n" +
+                        $"Não foi possível simplificar o METAR, esta função está disponível " +
+                        $"apenas para alguns aeroportos federais brasileiros.";
             }
-            else if (Metar.Contains("CAVOK"))
+            else if (Metar.Contains("SPECI") || Metar.Contains("COR"))
             {
-                var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
-                var dateYY = Metar.Substring(0, 4);
-                var dateMM = Metar.Substring(4, 2);
-                var dateDD = Metar.Substring(6, 2);
-                var dateHH = Metar.Substring(8, 2);
-
-                result = $"Metar: {Metar}\n"
-                    + $"✈️ Icao selecionado: {Icao}\n"
-                    + $"\n'/infoaero'\n"
-                    + $"\n'/googlemaps'\n"
-                    + $"\n📅 Metar confeccionado em {dateDD} de {Cdat.ConvertDateMetar(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
-                    + $"\n☁️ Situação meteorológica:\n"
-                    + $"\n🔴 Vento:" 
-                    + $"\n{Gwin.GetWindMetar(Metar)}\n"
-                    + $"\n🔴 Tempo predominante:\n"
-                    + $"{Gwea.GetWeatherMetar(Metar)}\n"
-                    + $"🔴 Temperatura:\n"
-                    + $"{Gtem.GetTemperatureMetar(Metar)}\n"
-                    + $"\n🔴 Pressão:\n"
-                    + $"{Gpre.GetPressionMetar(Metar)}";
+                return  
+                        $"{Metar}\n" +
+                        $"Este METAR possui código SPECI ou COR, estamos desenvolvendo " +
+                        $"a funcionalidade para decodificar a mensagem.";
             }
             else
             {
-                var Icao = Metar.Substring(Metar.IndexOf("SB"), 4);
-                var dateYY = Metar.Substring(0, 4);
-                var dateMM = Metar.Substring(4, 2);
-                var dateDD = Metar.Substring(6, 2);
-                var dateHH = Metar.Substring(8, 2);
-                
-                result = $"Metar: {Metar}\n"
-                    + $"✈️ Icao selecionado: {Icao}\n"
-                    + $"\n'/infoaero'\n"
-                    + $"\n'/googlemaps'\n"
-                    + $"\n📅 Metar confeccionado em {dateDD} de {Cdat.ConvertDateMetar(dateMM)} de {dateYY}, às {dateHH}:00 hora(s) (UTC).\n"
-                    + $"\n☁️ Situação meteorológica:\n"
-                    + $"\n🔴 Vento:" 
-                    + $"\n{Gwin.GetWindMetar(Metar)}\n"
-                    + $"\n🔴 Visibilidade:\n"
-                    + $"{Gvis.GetVisibilityMetar(Metar)}\n"
-                    + $"\n🔴 Tempo predominante:\n"
-                    + $"{Gwea.GetWeatherMetar(Metar)}\n"
-                    + $"🔴 Temperatura:\n"
-                    + $"{Gtem.GetTemperatureMetar(Metar)}\n"
-                    + $"\n🔴 Pressão:\n"
-                    + $"{Gpre.GetPressionMetar(Metar)}";
+                var stringBuilder = new StringBuilder();
+
+                for (int i = 0; i < Gweather.GetWeatherMetar(Metar).Length; i++)
+                {
+                    stringBuilder.Append("\n" + Gweather.GetWeatherMetar(Metar)[i] + "\n");
+                }
+
+                result = 
+                        $"----------------------------------------------------------------" +
+                        $"\n📄 METAR: \n" +
+                        $"{Metar}" +
+                        $"----------------------------------------------------------------" +
+                        $"\n\n'/infoaero'" +
+                        $"\n'/googlemaps'\n\n" +
+                        $"----------------------------------------------------------------" +
+                        $"\n📅 Data:\n" +
+                        $"\n➡️  {Gdate.ConvertDateMetar(Metar)[1]} às {Ghour.ConvertHourMetar(Metar)}\n" +
+                        $"----------------------------------------------------------------" +
+                        $"\n💨 Vento:\n" +
+                        $"\n➡️  Direção: {Gdirection.GetWindDirection(Metar)}\n" +
+                        $"➡️  Velocidade: {Gspeed.GetSpeedWind(Metar)}\n" +
+                        $"----------------------------------------------------------------" +
+                        $"\n🌡️ Temperatura:\n" +
+                        $"\n➡️ Atual: {Gtemperature.GetTemperatureMetar(Metar)}°C\n" +
+                        $"➡️ Ponto de Orvalho: {GdewPoint.GetDewPointMetar(Metar)}°C\n" +
+                        $"----------------------------------------------------------------" +
+                        $"\n🎈 Pressão:\n" +
+                        $"\n➡️ {Gpression.GetPressionMetar(Metar)} hPa\n" +
+                        $"----------------------------------------------------------------" +
+                        $"\n📡 Tempo:\n" +
+                        $"{stringBuilder.ToString()}" +
+                        $"----------------------------------------------------------------" +
+                        $"\nFim do relatório.";
             }
+
             return result;
         }
-        
     }
 }

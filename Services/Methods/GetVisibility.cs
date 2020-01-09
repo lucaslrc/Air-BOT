@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Air_BOT.Services.Helpers;
 
-namespace Air_BOT.Services.Methods
+namespace Air_BOT.Services.WeatherServices.Methods
 {
     public class GetVisibility
     {
@@ -10,51 +10,69 @@ namespace Air_BOT.Services.Methods
         
         public string GetVisibilityMetar(string Metar)
         {
-            var visibility = Metar.Substring(Metar.IndexOf("KT"));
-
-            var resultVisibility = string.Empty;
-
-
-            if (visibility.Substring(3, 12).Contains("9999"))
+            try
             {
-                resultVisibility = "Distância: Acima dos 10km (quilômetros).";
-            }
-            else if (visibility.Substring(3, 4).Where(c => char.IsLetter(c)).Count() > 0)
-            {
-                if (ListW.Weather.Any(x => x.WeatherTag == visibility) == true)
+                var visibility = Metar.Substring(Metar.IndexOf("KT"));
+
+                var resultVisibility = string.Empty;
+
+
+                if (visibility.Substring(3, 12).Contains("9999"))
                 {
-                    return null;
+                    resultVisibility = "Acima dos 10km";
                 }
-                else
+                else if (visibility.Substring(3, 4).Where(c => char.IsLetter(c)).Count() > 0)
                 {
-                    if (visibility.Substring(6).Contains("V"))
+                    if (ListW.Weather.Any(x => x.WeatherTag == visibility) == true)
                     {
-                        var v = visibility.Substring(11, 4);
-                        
-                        Console.WriteLine(v);
-                        Console.WriteLine(v.Where(c => char.IsNumber(c)).Count() > 0);
-
-                        if(v.Where(c => char.IsNumber(c)).Count() > 0)
+                        return null;
+                    }
+                    else
+                    {
+                        if (visibility.Substring(6).Contains("V"))
                         {
-                            double conv = int.Parse(v);
+                            var v = visibility.Substring(11, 4);
 
-                            var result = conv / 1000;
+                            if(v.Where(c => char.IsNumber(c)).Count() > 0)
+                            {
+                                double conv = int.Parse(v);
 
-                            resultVisibility = $"Distância: {result.ToString()}km (quilômetros).";
+                                var result = conv / 1000;
+
+                                resultVisibility = $"{result.ToString()}km";
+                            }
                         }
                     }
                 }
+                else
+                {
+                    double conv = int.Parse(visibility.Substring(3, 5));
+
+                    var result = conv / 1000;
+
+                    resultVisibility = $"{result.ToString()}km";
+                }
+
+                if (String.IsNullOrEmpty(resultVisibility))
+                {
+                    return "Não informado";
+                }
+                else
+                {
+                    return $"Distância: {resultVisibility}";
+                }
             }
-            else
+            catch (System.Exception Exception)
             {
-                double conv = int.Parse(visibility.Substring(3, 5));
+                Console.WriteLine(  $"\n___________________________________________________________________\n" +
+                                    $"\nData: {DateTime.Now.ToString("dd/MM/yyyy - hh:mm:ss")}\n" +
+                                    $"\nClasse:       GetVisibility\n" +
+                                    $"\nMétodo:       GetVisibilityMetar()\n" +
+                                    $"\nExceção executada, verifique-a:\n\n{Exception}" +
+                                    $"\n___________________________________________________________________\n" );
 
-                var result = conv / 1000;
-
-                resultVisibility = $"Distância: {result.ToString()}km (quilômetros).";
+                return "Não foi possível decodificar a visibilidade";
             }
-
-            return resultVisibility;
         }
     }
 }

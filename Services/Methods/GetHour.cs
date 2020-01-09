@@ -2,34 +2,28 @@ using System;
 
 namespace Air_BOT.Services.WeatherServices.Methods
 {
-    public class GetPression
+    public class GetHour
     {
-        public string GetPressionMetar(string Metar)
+        public string ConvertHourMetar(string Metar)
         {
             try
             {
-                string result = string.Empty;
+                var dateHH = Metar.Substring(8, 2);
 
-                var PressionStr = Metar.Substring(Metar.IndexOf("/"));
+                int testInt = int.Parse(dateHH);
 
-                var Pression = PressionStr.Substring(PressionStr.IndexOf("Q")).Substring(1, 4);
-
-                int testInt = int.Parse(Pression);
-
-                result = Pression;
-
-                return $"QNH: {result}";  
+                return $"{dateHH} horas (UTC)";
             }
             catch (System.Exception Exception)
             {
                 Console.WriteLine(  $"\n___________________________________________________________________\n" +
                                     $"\nData: {DateTime.Now.ToString("dd/MM/yyyy - hh:mm:ss")}\n" +
-                                    $"\nClasse:       GetPression\n" +
-                                    $"\nMétodo:       GetPressionMetar()\n" +
+                                    $"\nClasse:       GetHour\n" +
+                                    $"\nMétodo:       GetHourMetar()\n" +
                                     $"\nExceção executada, verifique-a:\n\n{Exception}" +
                                     $"\n___________________________________________________________________\n" );
 
-                return "Não foi possível decodificar a pressão";
+                return "Não foi possível decodificar o horário";
             }
             
         }

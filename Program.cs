@@ -121,7 +121,7 @@ namespace Air_BOT
             }
 
 
-            else if (e.Message.Text == "/simplificar")
+            else if (e.Message.Text.Equals("/Simplificar", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (String.IsNullOrEmpty(Icao))
                 {
@@ -149,7 +149,7 @@ namespace Air_BOT
             }
 
 
-            else if (e.Message.Text == "/infoaero")
+            else if (e.Message.Text.Equals("/infoaero", StringComparison.InvariantCultureIgnoreCase))
             {
                 var aPlist = new TranslateMetar();
 
@@ -162,7 +162,7 @@ namespace Air_BOT
             }
 
 
-            else if (e.Message.Text == "/googlemaps")
+            else if (e.Message.Text.Equals("/googlemaps", StringComparison.InvariantCultureIgnoreCase))
             {
                 var aPlist = new TranslateMetar();
 
@@ -175,7 +175,7 @@ namespace Air_BOT
             }
 
 
-            else if (e.Message.Text == "/listaicaos")
+            else if (e.Message.Text.Equals("/listaicaos", StringComparison.InvariantCultureIgnoreCase))
             {
                 botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
