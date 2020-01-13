@@ -181,7 +181,7 @@ namespace Air_BOT
                     chatId: e.Message.Chat,
                     text: "Selecione um estado:\n"
                      
-                        + "\n/AC  - " + " /AL  -  " + "/AP  -  " + "/AM\n"
+                        + "\n/AC  -  " + "/AL  -  " + "/AP  -  " + "/AM\n"
 
                         + "\n/BA  -  " + "/CE  -  " + "/DF  -  " + "/ES\n"
 
