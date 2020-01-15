@@ -17,10 +17,10 @@ namespace Air_BOT.Services.WeatherServices.Methods
                 var DD = int.Parse(stringDD);
 
                 string[] arrayResult = {
-                    $"{DateTime.Parse($"{DD},{MM},{YY}").ToString("dd/MM/yy")}",
-                    $"{DateTime.Parse($"{DD},{MM},{YY}").ToString("dd")} de " +
-                    $"{DateTime.Parse($"{DD},{MM},{YY}").ToString("MMMM")} de " +
-                    $"{DateTime.Parse($"{DD},{MM},{YY}").ToString("yyyy")}",
+                    $"{DateTime.Parse($"{YY},{MM},{DD}").ToString("dd/MM/yy")}",
+                    $"{DateTime.Parse($"{YY},{MM},{DD}").ToString("dd")} de " +
+                    $"{DateTime.Parse($"{YY},{MM},{DD}").ToString("MMMM")} de " +
+                    $"{DateTime.Parse($"{YY},{MM},{DD}").ToString("yyyy")}",
                 };
 
                 return arrayResult; 

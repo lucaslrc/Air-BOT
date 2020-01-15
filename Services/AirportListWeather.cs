@@ -1,7 +1,5 @@
 using System;
-using System.Drawing;
 using System.Text;
-using Air_BOT.Models;
 using Air_BOT.Services.WeatherServices.Methods;
 
 namespace Air_BOT.Services
